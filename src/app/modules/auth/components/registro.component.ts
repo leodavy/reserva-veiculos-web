@@ -1,88 +1,68 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { Usuario } from '../../../shared/model/usuario';
 import { tap } from 'rxjs';
+import { CustomPopupComponent } from '../../../shared/components/custom-snackbar/custom-popup.component';
 
 @Component({
   selector: 'registro',
   standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
   template: `
-  <div class="absolute w-screen h-screen z-0">
-      <div class="absolute"></div>
-      <div class="absolute"></div>
-    </div>
-    <div class="relative z-40 w-screen h-screen flex items-start mt-40 justify-center">
-      <div class="bg-white shadow-lg w-full mx-96 md rounded-xl border border-gray-400 overflow-hidden p-5">
-        <h1 class="text-2xl font-bold pb-5">Cadastrar</h1>
-        <form class="flex w-full gap-5 flex-col" [formGroup]="formGroup" (ngSubmit)="registrar()">
-          <div class="border border-gray rounded-lg overflow-hidden">
-            <input
-              class="w-full rounded-lg px-2"
-              type="text"
-              formControlName="usuTxNome"
-              placeholder="Nome"
-            />
-          </div>
-          <div class="border border-gray rounded-lg overflow-hidden">
-            <input
-              class="w-full rounded-lg px-2"
-              type="text"
-              formControlName="usuTxLogin"
-              placeholder="Login"
-            />
-          </div>
-          <div class="border border-gray rounded-lg overflow-hidden">
-            <input
-              class="w-full rounded-lg px-2"
-              type="password"
-              formControlName="usuTxSenha"
-              placeholder="Senha"
-            />
-          </div>
-          <div class="flex w-full justify-end">
-            <div class="rounded-lg bg-blue-950 w-fit px-2 py1 text-sm text-medium text-white">
-              <button type="submit">Cadastrar</button>
-            </div>
-          </div>
-        </form>
+  <div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Registro</h2>
+    <form [formGroup]="formGroup" (ngSubmit)="registrar()">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+        <input type="text" id="name" formControlName="usuTxNome" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
-    </div>
-  `
+      <div class="mb-6">
+        <label for="login" class="block text-sm font-medium text-gray-700">Login</label>
+        <input type="text" id="login" formControlName="usuTxLogin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+      </div>
+      <div class="mb-6">
+        <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+        <input type="password" id="password" formControlName="usuTxSenha" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+      </div>
+      <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Cadastrar</button>
+      <!-- <a (click)="" class="block mt-4 text-sm text-indigo-600 hover:text-indigo-800">Registrar-se</a> -->
+    </form>
+  </div>
+  <custom-popup></custom-popup>
+</div>
+  `,
+  imports: [
+    ReactiveFormsModule,
+    CustomPopupComponent
+  ]
 })
 export class RegistroComponent {
-  #router = inject(Router);
-  
+  @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
+  constructor(private router: Router, private authService: AuthService) { }
   formGroup: FormGroup = new FormGroup({
-    usuTxNome: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
-    usuTxLogin: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
-    usuTxSenha: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required]
-    })
+    usuTxNome: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
+    usuTxLogin: new FormControl<string>('', {nonNullable: true,validators: [Validators.required]}),
+    usuTxSenha: new FormControl<string>('', {nonNullable: true,validators: [Validators.required]})
   });
-
-  #authService = inject(AuthService);
-
   registrar(): void {
+    console.log("botao funcionando");
     if (this.formGroup.valid) {
       const user: Usuario = this.formGroup.value as Usuario;
-      this.#authService.registrar(user).pipe(
+      this.authService.registrar(user).pipe(
         tap(() => {
-          console.log('Cadastrado com sucesso', user);
-          this.#router.navigate(['/login']); 
+          console.log('Usuário cadastrado com sucesso', user);
+          setTimeout(() => {
+            this.popup.show('Usuário cadastrado com sucesso!');
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 3000);
+          }, 100); 
         })
       ).subscribe();
     }
   }
 }
+
+
