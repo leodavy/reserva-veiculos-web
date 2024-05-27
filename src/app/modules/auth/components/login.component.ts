@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
 import { CustomTextButtonComponent } from '../../../shared/components/custom-text-button/custom-text-button.component';
+import { CustomBackgroundComponent } from '../../../shared/components/custom-background/custom-background.component';
 @Component({
   selector: 'login',
   standalone: true,
   imports: [
     RouterOutlet,
     CustomButtonComponent,
-    CustomTextButtonComponent
+    CustomTextButtonComponent,
+    CustomBackgroundComponent
   ],
   template: `
-  <div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <custom-background>
   <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
     <form>
@@ -31,7 +33,7 @@ import { CustomTextButtonComponent } from '../../../shared/components/custom-tex
   </div>
 
   </div>
-</div>
+<custom-background>
   `
 })
 export class LoginComponent {

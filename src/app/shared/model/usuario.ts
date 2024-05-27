@@ -12,6 +12,4 @@ export class Usuario {
     this.usuTxSenha = data.usuTxSenha || '';
     this.roles = data.roles || [];
   }
-
-
 }

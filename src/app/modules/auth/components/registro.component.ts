@@ -7,12 +7,13 @@ import { tap } from 'rxjs';
 
 import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
 import { CustomPopupComponent } from '../../../shared/components/custom-popup/custom-popup.component';
+import { CustomBackgroundComponent } from '../../../shared/components/custom-background/custom-background.component';
 
 @Component({
   selector: 'registro',
   standalone: true,
   template: `
-  <div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <custom-background>
   <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center">Registro</h2>
     <form [formGroup]="formGroup" (ngSubmit)="registrar()">
@@ -32,12 +33,13 @@ import { CustomPopupComponent } from '../../../shared/components/custom-popup/cu
     </form>
   </div>
   <custom-popup></custom-popup>
-</div>
+  </custom-background>
   `,
   imports: [
     ReactiveFormsModule,
     CustomPopupComponent,
-    CustomButtonComponent
+    CustomButtonComponent,
+    CustomBackgroundComponent
   ]
 })
 export class RegistroComponent {
