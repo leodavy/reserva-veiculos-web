@@ -8,12 +8,15 @@ import { tap } from 'rxjs';
 import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
 import { CustomPopupComponent } from '../../../shared/components/custom-popup/custom-popup.component';
 import { CustomBackgroundComponent } from '../../../shared/components/custom-background/custom-background.component';
+import { CustomMenuComponent } from "../../../shared/components/custom-menu/custom-menu.component";
+import { MenuItem } from '../../../shared/model/menu-item';
 
 @Component({
-  selector: 'registro',
-  standalone: true,
-  template: `
+    selector: 'registro',
+    standalone: true,
+    template: `
   <custom-background>
+  <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center">Registro</h2>
     <form [formGroup]="formGroup" (ngSubmit)="registrar()">
@@ -35,12 +38,13 @@ import { CustomBackgroundComponent } from '../../../shared/components/custom-bac
   <custom-popup></custom-popup>
   </custom-background>
   `,
-  imports: [
-    ReactiveFormsModule,
-    CustomPopupComponent,
-    CustomButtonComponent,
-    CustomBackgroundComponent
-  ]
+    imports: [
+        ReactiveFormsModule,
+        CustomPopupComponent,
+        CustomButtonComponent,
+        CustomBackgroundComponent,
+        CustomMenuComponent
+    ]
 })
 export class RegistroComponent {
   @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
@@ -50,6 +54,11 @@ export class RegistroComponent {
     usuTxLogin: new FormControl<string>('', {nonNullable: true,validators: [Validators.required]}),
     usuTxSenha: new FormControl<string>('', {nonNullable: true,validators: [Validators.required]})
   });
+
+  menuItems: MenuItem[] = [
+    { label: 'Início', route: '/inicio', type: 'text' },
+    { label: 'Login', route: '/login', type: 'text' },
+  ];
   registrar(): void {
     console.log("botao funcionando");
     if (this.formGroup.valid) {

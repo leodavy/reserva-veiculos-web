@@ -3,6 +3,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
 import { CustomTextButtonComponent } from '../../../shared/components/custom-text-button/custom-text-button.component';
 import { CustomBackgroundComponent } from '../../../shared/components/custom-background/custom-background.component';
+import { CustomMenuComponent } from '../../../shared/components/custom-menu/custom-menu.component';
+import { MenuItem } from '../../../shared/model/menu-item';
 @Component({
   selector: 'login',
   standalone: true,
@@ -10,10 +12,12 @@ import { CustomBackgroundComponent } from '../../../shared/components/custom-bac
     RouterOutlet,
     CustomButtonComponent,
     CustomTextButtonComponent,
-    CustomBackgroundComponent
+    CustomBackgroundComponent,
+    CustomMenuComponent
   ],
   template: `
   <custom-background>
+  <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
     <form>
@@ -28,10 +32,8 @@ import { CustomBackgroundComponent } from '../../../shared/components/custom-bac
       <custom-button [buttonText]="'Login'"></custom-button>
     </form>
     <div class="mt-6 flex justify-center">
-    <custom-text-button [buttonText]="'Registrar-se'" (buttonClick)="navegarRegistro()"></custom-text-button>
-
+    <custom-text-button [buttonText]="'Registre-se'" (buttonClick)="navegarRegistro()"></custom-text-button>
   </div>
-
   </div>
 <custom-background>
   `
@@ -39,6 +41,10 @@ import { CustomBackgroundComponent } from '../../../shared/components/custom-bac
 export class LoginComponent {
   constructor(private router: Router) { }
 
+    menuItems: MenuItem[] = [
+    { label: 'Início', route: '/inicio', type: 'text' },
+    { label: 'Registre-se', route: '/registro', type: 'text' },
+  ];
   navegarRegistro() {
     this.router.navigate(["/registro"]);
   }
