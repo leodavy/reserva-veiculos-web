@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { Usuario } from '../../../shared/model/usuario';
 import { tap } from 'rxjs';
-import { CustomPopupComponent } from '../../../shared/components/custom-snackbar/custom-popup.component';
+
 import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
+import { CustomPopupComponent } from '../../../shared/components/custom-popup/custom-popup.component';
 
 @Component({
   selector: 'registro',
