@@ -60,7 +60,6 @@ export class RegistroComponent {
     { label: 'Login', route: '/login', type: 'text' },
   ];
   registrar(): void {
-    console.log("botao funcionando");
     if (this.formGroup.valid) {
       const user: Usuario = this.formGroup.value as Usuario;
       this.authService.registrar(user).pipe(
