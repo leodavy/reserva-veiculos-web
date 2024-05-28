@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../service/auth.service';
+import { UsuarioService } from '../../../shared/service/usuario.service';
 import { Usuario } from '../../../shared/model/usuario';
 import { tap } from 'rxjs';
 
@@ -12,47 +12,49 @@ import { CustomMenuComponent } from "../../../shared/components/custom-menu/cust
 import { MenuItem } from '../../../shared/model/menu-item';
 
 @Component({
-    selector: 'registro',
-    standalone: true,
-    template: `
+  selector: 'registro',
+  standalone: true,
+  template: `
   <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-center">Registro</h2>
+  <div class="flex justify-center items-center h-screen">
+  <div class="bg-black p-8 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-white">Registro</h2>
     <form [formGroup]="formGroup" (ngSubmit)="registrar()">
       <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+        <label for="name" class="block text-sm font-medium text-white">Nome</label>
         <input type="text" id="name" formControlName="usuTxNome" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
       <div class="mb-6">
-        <label for="login" class="block text-sm font-medium text-gray-700">Login</label>
+        <label for="login" class="block text-sm font-medium text-white">Login</label>
         <input type="text" id="login" formControlName="usuTxLogin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
       <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+        <label for="password" class="block text-sm font-medium text-white ">Senha</label>
         <input type="password" id="password" formControlName="usuTxSenha" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
       <custom-button [buttonText]="'Cadastrar'"></custom-button>      <!-- <a (click)="" class="block mt-4 text-sm text-indigo-600 hover:text-indigo-800">Registrar-se</a> -->
     </form>
   </div>
   <custom-popup></custom-popup>
+</div>
   </custom-background>
   `,
-    imports: [
-        ReactiveFormsModule,
-        CustomPopupComponent,
-        CustomButtonComponent,
-        CustomBackgroundComponent,
-        CustomMenuComponent
-    ]
+  imports: [
+    ReactiveFormsModule,
+    CustomPopupComponent,
+    CustomButtonComponent,
+    CustomBackgroundComponent,
+    CustomMenuComponent
+  ]
 })
 export class RegistroComponent {
   @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: UsuarioService) { }
   formGroup: FormGroup = new FormGroup({
-    usuTxNome: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
-    usuTxLogin: new FormControl<string>('', {nonNullable: true,validators: [Validators.required]}),
-    usuTxSenha: new FormControl<string>('', {nonNullable: true,validators: [Validators.required]})
+    usuTxNome: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    usuTxLogin: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    usuTxSenha: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] })
   });
 
   menuItems: MenuItem[] = [
@@ -70,7 +72,7 @@ export class RegistroComponent {
             setTimeout(() => {
               this.router.navigate(['/login']);
             }, 3000);
-          }, 100); 
+          }, 100);
         })
       ).subscribe();
     }

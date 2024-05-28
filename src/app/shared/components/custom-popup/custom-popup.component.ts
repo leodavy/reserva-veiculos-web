@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   template: `
   @if (isVisible) {
     <div class="fixed inset-0 flex items-center justify-center">
-      <div class="bg-black p-8 rounded shadow-md max-w-md text-center">
-        <p class="text-lg font-medium text-white">{{ message }}</p>
+      <div class="bg-white p-8 rounded shadow-md max-w-md text-center">
+        <p class="text-lg font-medium text-black">{{ message }}</p>
       </div>
     </div>
   }

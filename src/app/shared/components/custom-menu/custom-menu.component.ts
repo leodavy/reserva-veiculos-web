@@ -13,7 +13,7 @@ import { CustomTextButtonComponent } from '../custom-text-button/custom-text-but
     CustomTextButtonComponent
   ],
   template: `
-  <nav class="bg-white p-1 fixed top-0 left-0 w-full">
+  <nav class="bg-black p-1 fixed top-0 left-0 w-full">
     <div class="flex items-center justify-end h-16 px-2">
       <div class="flex space-x-4">
         <ng-container *ngFor="let item of menuItems">

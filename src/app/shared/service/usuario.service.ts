@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
-import { Usuario } from '../../../shared/model/usuario';
+import { Usuario } from '../model/usuario';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class UsuarioService {
   #http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/usuario`;  
   private tokenKey = 'authToken';
@@ -39,4 +39,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
   }
+
+  findById(userId: number): Observable<Usuario> {
+    return this.#http.get<Usuario>(`${this.baseUrl}/${userId}`);
+  }
 }
+
+
