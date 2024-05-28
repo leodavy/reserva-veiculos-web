@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Usuario } from '../model/usuario';
 
 @Injectable({
@@ -39,10 +39,4 @@ export class UsuarioService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
   }
-
-  findById(userId: number): Observable<Usuario> {
-    return this.#http.get<Usuario>(`${this.baseUrl}/${userId}`);
-  }
 }
-
-

@@ -30,10 +30,10 @@ import { MenuItem } from '../../../shared/model/menu-item';
         <input type="text" id="login" formControlName="usuTxLogin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
       <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-white ">Senha</label>
+        <label for="password" class="block text-sm font-medium text-white -">Senha</label>
         <input type="password" id="password" formControlName="usuTxSenha" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
-      <custom-button [buttonText]="'Cadastrar'"></custom-button>      <!-- <a (click)="" class="block mt-4 text-sm text-indigo-600 hover:text-indigo-800">Registrar-se</a> -->
+      <custom-button [buttonText]="'Cadastrar'"></custom-button>      
     </form>
   </div>
   <custom-popup></custom-popup>
@@ -50,7 +50,7 @@ import { MenuItem } from '../../../shared/model/menu-item';
 })
 export class RegistroComponent {
   @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
-  constructor(private router: Router, private authService: UsuarioService) { }
+  constructor(private router: Router, private usuarioService: UsuarioService) { }
   formGroup: FormGroup = new FormGroup({
     usuTxNome: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     usuTxLogin: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
@@ -64,7 +64,7 @@ export class RegistroComponent {
   registrar(): void {
     if (this.formGroup.valid) {
       const user: Usuario = this.formGroup.value as Usuario;
-      this.authService.registrar(user).pipe(
+      this.usuarioService.registrar(user).pipe(
         tap(() => {
           console.log('Usuário cadastrado com sucesso', user);
           setTimeout(() => {

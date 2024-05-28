@@ -25,34 +25,26 @@ import { MenuItem } from '../../shared/model/menu-item';
     CustomMenuComponent
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   usuTxNome: string = '';
-  vehicles: any[] = [];
+  veiculos: any[] = [];
+  isAdmin: boolean = false;
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService,
     private veiculoService: VeiculoService
   ) { }
   menuItems: MenuItem[] = [
     { label: 'Home', route: '/home', type: 'text' },
     { label: 'Sair', route: '/login', type: 'text' },
   ];
+  
 
-  ngOnInit() {
-    const userNrId = 1;
-    this.usuarioService.findById(userNrId).subscribe(user => {
-      this.usuTxNome = user.usuTxNome;
-    }, error => {
-      console.error('Erro ao buscar dados do usuário', error);
-    });
-
-    this.loadVehicles();
-  }
+ 
 
   loadVehicles() {
     this.veiculoService.listaVeiculos().subscribe(vehicles => {
-      this.vehicles = vehicles;
+      this.veiculos = vehicles;
     });
   }
 
