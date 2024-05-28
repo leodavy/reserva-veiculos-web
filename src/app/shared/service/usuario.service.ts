@@ -37,6 +37,7 @@ export class UsuarioService {
   }
 
   logout(): void {
+    console.log('Logout called');
     localStorage.removeItem(this.tokenKey);
   }
 }

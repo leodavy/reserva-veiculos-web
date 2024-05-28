@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../shared/service/usuario.service';
-import { VeiculoService } from '../../shared/service/veiculo.service';
 import { CustomBackgroundComponent } from '../../shared/components/custom-background/custom-background.component';
 import { CommonModule } from '@angular/common';
 import { CustomMenuComponent } from "../../shared/components/custom-menu/custom-menu.component";
 import { MenuItem } from '../../shared/model/menu-item';
+import { UsuarioService } from '../../shared/service/usuario.service';
 
 @Component({
   selector: 'home',
@@ -31,24 +30,16 @@ export class HomeComponent {
   isAdmin: boolean = false;
 
   constructor(
-    private router: Router,
-    private veiculoService: VeiculoService
+    private usuarioService: UsuarioService,
+    private router: Router
   ) { }
   menuItems: MenuItem[] = [
     { label: 'Home', route: '/home', type: 'text' },
-    { label: 'Sair', route: '/login', type: 'text' },
+    { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
   
-
- 
-
-  loadVehicles() {
-    this.veiculoService.listaVeiculos().subscribe(vehicles => {
-      this.veiculos = vehicles;
-    });
-  }
-
-  navigateToReservation(vehicleId: string) {
-    this.router.navigate([`/home/reserve-vehicle`, vehicleId]);
+  logout() {
+    this.usuarioService.logout(); 
+    this.router.navigate(['/login']);
   }
 }
