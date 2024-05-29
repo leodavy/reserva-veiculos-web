@@ -18,7 +18,7 @@ import { MenuItem } from '../shared/model/menu-item';
   <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="flex justify-center items-center h-screen">
-  <div class="bg-black p-8 rounded shadow-md w-full max-w-md">
+  <div class="bg-gray-800 p-8 rounded shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center text-white">Registro</h2>
     <form [formGroup]="formGroup" (ngSubmit)="registrar()">
       <div class="mb-4">

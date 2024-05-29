@@ -17,7 +17,7 @@ import { tap } from 'rxjs';
    <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="flex justify-center items-center h-screen">
-  <div class="bg-black p-8 rounded shadow-md w-full max-w-md ">
+  <div class="bg-gray-800 p-8 rounded shadow-md w-full max-w-md ">
     <h2 class="text-2xl text-white font-bold mb-6 text-center">Login</h2>
     <form [formGroup]="formGroup" (ngSubmit)="login()">
       <div class="mb-4">
