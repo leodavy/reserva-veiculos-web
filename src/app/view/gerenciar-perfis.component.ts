@@ -11,7 +11,7 @@ import { CustomButtonComponent } from "../shared/components/custom-button/custom
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
-  selector: 'cadastro-perfil',
+  selector: 'gerenciar-perfis',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -44,7 +44,7 @@ import { CommonModule, Location } from '@angular/common';
 </custom-background>
   `,
 })
-export class CadastroPerfilComponent {
+export class GerenciarPerfisComponent {
   @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
 
   constructor(

@@ -5,7 +5,7 @@ import { AcessoAutenticado, AcessoAdmin } from './shared/guard/auth.guard';
 import { HomeComponent } from './view/home.component';
 import { AdminComponent } from './view/admin.component';
 import { ListagemUsuariosComponent } from './view/listagem-usuarios.component';
-import { CadastroPerfilComponent } from './view/cadastro-perfil.component';
+import { GerenciarPerfisComponent } from './view/gerenciar-perfis.component';
 
 
 export const routes: Routes = [
@@ -17,6 +17,6 @@ export const routes: Routes = [
     { path: 'registro', component: RegistroComponent },
     { path: 'admin', canActivate: [AcessoAutenticado, AcessoAdmin], component: AdminComponent }, 
     { path: 'admin/listagem-usuarios', canActivate: [AcessoAutenticado, AcessoAdmin], component: ListagemUsuariosComponent },
-    { path: 'admin/cadastro-perfil', canActivate: [AcessoAutenticado, AcessoAdmin], component: CadastroPerfilComponent },
+    { path: 'admin/gerenciar-perfis', canActivate: [AcessoAutenticado, AcessoAdmin], component: GerenciarPerfisComponent },
     { path: '**', redirectTo: 'login' }
 ];
