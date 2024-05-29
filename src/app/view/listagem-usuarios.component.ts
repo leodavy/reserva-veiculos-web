@@ -32,11 +32,11 @@ import { AdminService } from '../shared/service/admin.service';
         </div>
 
         <div class="flex justify-center items-center gap-4">
-          <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700" (click)="previousPage()" [disabled]="currentPage === 1">
+          <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPage()" [disabled]="currentPage === 1">
             Anterior
           </button>
           <span>Página {{ currentPage }} de {{ totalPages }}</span>
-          <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700" (click)="nextPage()" [disabled]="currentPage === totalPages">
+          <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPage()" [disabled]="currentPage === totalPages">
             Próxima
           </button>
         </div>
