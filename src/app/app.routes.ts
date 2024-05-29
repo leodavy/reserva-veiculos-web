@@ -15,6 +15,6 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'registro', component: RegistroComponent },
     { path: 'admin', canActivate: [AcessoAutenticado, AcessoAdmin], component: AdminComponent }, 
-    { path: 'admin/listagem-usuarios', canActivate: [AcessoAutenticado], component: ListagemUsuariosComponent },
+    { path: 'admin/listagem-usuarios', canActivate: [AcessoAutenticado, AcessoAdmin], component: ListagemUsuariosComponent },
     { path: '**', redirectTo: 'login' }
 ];
