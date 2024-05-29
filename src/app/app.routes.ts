@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './modules/auth/login.component';
-import { RegistroComponent } from './modules/auth/registro.component';
+import { LoginComponent } from './view/login.component';
+import { RegistroComponent } from './view/registro.component';
 import { acessoAutenticado } from './shared/guard/auth.guard';
-import { HomeComponent } from './modules/home/home.component';
+import { HomeComponent } from './view/home.component';
+
 
 export const routes: Routes = [
     {

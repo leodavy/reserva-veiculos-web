@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CustomBackgroundComponent } from '../../shared/components/custom-background/custom-background.component';
+import { CustomBackgroundComponent } from '../shared/components/custom-background/custom-background.component';
 import { CommonModule } from '@angular/common';
-import { CustomMenuComponent } from "../../shared/components/custom-menu/custom-menu.component";
-import { MenuItem } from '../../shared/model/menu-item';
-import { UsuarioService } from '../../shared/service/usuario.service';
-import { JwtPayload } from '../../shared/interceptors/JwtPayload';
+import { CustomMenuComponent } from "../shared/components/custom-menu/custom-menu.component";
+import { MenuItem } from '../shared/model/menu-item';
+import { UsuarioService } from '../shared/service/usuario.service';
+import { JwtPayload } from '../shared/interceptors/JwtPayload';
 
 @Component({
   selector: 'home',
@@ -36,6 +36,10 @@ export class HomeComponent implements OnInit {
     this.usuarioService.getUsuarioAtual().subscribe(usuario => {
       console.log('Usuário logado:', usuario);
       this.usuario = usuario;
+
+         if (usuario && usuario.payload.roles.includes('ROLE_ADMIN')) {
+        this.menuItems.splice(1, 0, { label: 'Painel Administrador', route: '/admin', type: 'text' });
+      }
     });
   }
 
