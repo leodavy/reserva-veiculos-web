@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
-import { CustomTextButtonComponent } from '../../../shared/components/custom-text-button/custom-text-button.component';
-import { CustomBackgroundComponent } from '../../../shared/components/custom-background/custom-background.component';
-import { CustomMenuComponent } from '../../../shared/components/custom-menu/custom-menu.component';
-import { MenuItem } from '../../../shared/model/menu-item';
+import { CustomButtonComponent } from '../../shared/components/custom-button/custom-button.component';
+import { CustomTextButtonComponent } from '../../shared/components/custom-text-button/custom-text-button.component';
+import { CustomBackgroundComponent } from '../../shared/components/custom-background/custom-background.component';
+import { CustomMenuComponent } from '../../shared/components/custom-menu/custom-menu.component';
+import { MenuItem } from '../../shared/model/menu-item';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomPopupComponent } from "../../../shared/components/custom-popup/custom-popup.component";
+import { CustomPopupComponent } from "../../shared/components/custom-popup/custom-popup.component";
 import { CommonModule } from '@angular/common';
-import { UsuarioService } from '../../../shared/service/usuario.service';
+import { UsuarioService } from '../../shared/service/usuario.service';
 import { tap } from 'rxjs';
 @Component({
   selector: 'login',

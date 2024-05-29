@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../../shared/service/usuario.service';
-import { Usuario } from '../../../shared/model/usuario';
+import { UsuarioService } from '../../shared/service/usuario.service';
+import { Usuario } from '../../shared/model/usuario';
 import { tap } from 'rxjs';
 
-import { CustomButtonComponent } from '../../../shared/components/custom-button/custom-button.component';
-import { CustomPopupComponent } from '../../../shared/components/custom-popup/custom-popup.component';
-import { CustomBackgroundComponent } from '../../../shared/components/custom-background/custom-background.component';
-import { CustomMenuComponent } from "../../../shared/components/custom-menu/custom-menu.component";
-import { MenuItem } from '../../../shared/model/menu-item';
+import { CustomButtonComponent } from '../../shared/components/custom-button/custom-button.component';
+import { CustomPopupComponent } from '../../shared/components/custom-popup/custom-popup.component';
+import { CustomBackgroundComponent } from '../../shared/components/custom-background/custom-background.component';
+import { CustomMenuComponent } from "../../shared/components/custom-menu/custom-menu.component";
+import { MenuItem } from '../../shared/model/menu-item';
 
 @Component({
   selector: 'registro',
