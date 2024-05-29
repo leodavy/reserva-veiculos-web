@@ -49,7 +49,7 @@ export class ListagemUsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
   usuariosPaginated: Usuario[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 6;
   totalPages: number = 1;
   constructor(
     private usuarioService: UsuarioService,

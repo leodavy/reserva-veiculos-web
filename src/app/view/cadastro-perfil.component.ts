@@ -8,7 +8,7 @@ import { MenuItem } from '../shared/model/menu-item';
 import { tap } from 'rxjs';
 import { AdminService } from '../shared/service/admin.service';
 import { CustomButtonComponent } from "../shared/components/custom-button/custom-button.component";
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'cadastro-perfil',
@@ -18,25 +18,30 @@ import { Location } from '@angular/common';
     CustomBackgroundComponent,
     CustomMenuComponent,
     CustomButtonComponent,
+    CommonModule,
     CustomPopupComponent],
 
-  template: `
-  <custom-background>
-      <custom-menu [menuItems]="menuItems"></custom-menu>
-      <div class="flex justify-center items-center h-screen">
-        <div class="bg-gray-800 p-8 rounded shadow-md w-full max-w-md">
-          <h2 class="text-2xl font-bold mb-6 text-center text-white">Cadastro de Perfil</h2>
-          <form [formGroup]="formGroup" (ngSubmit)="registrar()">
-            <div class="mb-4">
-              <label for="nomePerfil" class="block text-sm font-medium text-white">Nome do Perfil</label>
-              <input type="text" id="nomePerfil" formControlName="perTxNome" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-            </div>
-            <custom-button [buttonText]="'Cadastrar'"></custom-button>      
-          </form>
+  template: `<custom-background>
+  <custom-menu [menuItems]="menuItems"></custom-menu>
+  <div class="flex justify-center items-center h-screen bg-cover bg-center" style="background-image: url('assets/background.jpg');">
+    <div class="bg-gray-900 bg-opacity-75 p-8 rounded-lg shadow-lg w-full max-w-lg">
+      <h2 class="text-3xl font-bold mb-6 text-center text-white">Cadastro de Perfil</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="registrar()">
+        <div class="mb-4">
+          <label for="nomePerfil" class="block text-sm font-medium text-white">Nome do Perfil</label>
+          <input 
+            type="text" 
+            id="nomePerfil" 
+            formControlName="perTxNome" 
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white text-black"
+            required>
         </div>
-        <custom-popup></custom-popup>
-      </div>
-    </custom-background>
+        <custom-button [buttonText]="'Cadastrar'"></custom-button>
+      </form>
+    </div>
+    <custom-popup></custom-popup>
+  </div>
+</custom-background>
   `,
 })
 export class CadastroPerfilComponent {
