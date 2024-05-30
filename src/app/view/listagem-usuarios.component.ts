@@ -67,6 +67,7 @@ export class ListagemUsuariosComponent implements OnInit {
 
   menuItems: MenuItem[] = [
     { label: 'Home', route: '/home', type: 'text' },
+    { label: 'Painel Administrador', route: '/admin', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
 
