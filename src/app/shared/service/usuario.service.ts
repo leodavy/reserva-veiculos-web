@@ -61,4 +61,9 @@ export class UsuarioService {
   getUsuarioAtual(): Observable<JwtPayload | null> {
     return this.usuarioLogado$;
   }
+
+  getUsuarioById(usuNrId: number): Observable<Usuario> {
+    return this.#http.get<Usuario>(`${this.baseUrl}/${usuNrId}`);
+  }
+
 }

@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Usuario } from '../model/usuario';
 import { Perfil } from '../model/perfil';
+import { UsuarioPerfil } from '../model/usuario-perfil';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,12 @@ export class AdminService {
   getTotalPerfis(): Observable<number> {
     return this.#http.get<number>(`${this.baseUrl}/totalPerfis`);
   }
-  
+  associarPerfilUsuario(usuNrId: number, perNrId: number): Observable<any> {
+    const body = { usuNrId: usuNrId, perNrId: perNrId };
+    return this.#http.post<any>(`${this.baseUrl}/associarPerfilUsuario`, body);
+  }
+  listarUsuariosAssociados(perNrId: number): Observable<UsuarioPerfil[]> {
+    return this.#http.get<UsuarioPerfil[]>(`${this.baseUrl}/perfil/${perNrId}/listarUsuarios`);
+  }
+
 }

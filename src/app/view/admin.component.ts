@@ -62,10 +62,6 @@ export class AdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.usuarioService.getUsuarioAtual().subscribe(usuario => {
-      console.log('Usuário logado:', usuario);
-      this.usuario = usuario;
-    });
     this.carregarTotais();
   }
 
