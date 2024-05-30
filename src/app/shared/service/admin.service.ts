@@ -36,9 +36,15 @@ export class AdminService {
     return this.#http.get<number>(`${this.baseUrl}/totalPerfis`);
   }
   associarPerfilUsuario(usuNrId: number, perNrId: number): Observable<any> {
-    const body = { usuNrId: usuNrId, perNrId: perNrId };
-    return this.#http.post<any>(`${this.baseUrl}/associarPerfilUsuario`, body);
+    const params = new HttpParams()
+      .set('usuNrId', usuNrId.toString())
+      .set('perNrId', perNrId.toString());
+
+    return this.#http.post<any>(`${this.baseUrl}/associarPerfilUsuario`, null, { params });
   }
+  
+  
+  
   listarUsuariosAssociados(perNrId: number): Observable<UsuarioPerfil[]> {
     return this.#http.get<UsuarioPerfil[]>(`${this.baseUrl}/perfil/${perNrId}/listarUsuarios`);
   }

@@ -31,14 +31,14 @@ import { CustomPopupComponent } from '../shared/components/custom-popup/custom-p
       <custom-menu [menuItems]="menuItems"></custom-menu>
       <div class="flex flex-col items-center justify-center h-screen text-center bg-gray-100 p-8">
         <h1 class="text-4xl font-bold mb-4 text-gray-800">PERFIL {{ perfil?.perTxNome }}</h1>
-        <p class="text-lg text-gray-600 mb-8">Aqui você pode gerenciar usuários associados a esse perfil.</p>
+        <p class="text-lg text-gray-600 mb-8">Aqui você pode gerenciar usuários associados a este perfil.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-4">Associar usuário</h2>
             <p class="text-gray-600 mb-4">Associe um usuário a este perfil</p>
             <form [formGroup]="formGroup" (ngSubmit)="associarUsuarioPerfil()">
-              <input type="text" formControlName="perTxNome" placeholder="Id do usuário" class="px-4 py-2 border rounded-lg mb-4 w-full" required>
+            <input type="text" formControlName="usuNrId" placeholder="Id do usuário" class="px-4 py-2 border rounded-lg mb-4 w-full" required>
               <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
                 <i class="fas fa-user-plus mr-2"></i>Associar Usuário
               </button>
@@ -89,9 +89,9 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const perfilId = params['perNrId']; // Corrigido para 'perNrId'
-      if (perfilId) {
-        this.carregarPerfil(perfilId);
+      const perNrId = params['perNrId'];
+      if (perNrId) {
+        this.carregarPerfil(perNrId);
       } else {
         console.error('Erro: ID do perfil não fornecido');
       }
@@ -108,9 +108,35 @@ export class PerfilComponent implements OnInit {
       }
     );
   }
+  associarUsuarioPerfil(): void {
+    if (this.formGroup.valid && this.perfil) {
+      const usuNrId: number = parseInt(this.formGroup.value.usuNrId);
+      const perNrId: number = this.perfil.perNrId;
+
+      this.adminService.associarPerfilUsuario(usuNrId, perNrId).pipe(
+        tap(response => {
+          console.log('Usuário associado ao perfil com sucesso', response);
+          if (this.popup) {
+            this.popup.show('Usuário associado ao perfil com sucesso!');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+            console.error('Erro: Popup não disponível');
+          }
+        }),
+        catchError((error) => {
+          console.error('Erro ao associar o usuário a este perfil:', error);
+          this.errorMessage = 'Erro ao associar o usuário a este perfil.';
+          return of(null);
+        })
+      ).subscribe();
+    }
+  }
+
 
   formGroup: FormGroup = new FormGroup({
-    perTxNome: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] })
+    usuNrId: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] })
   });
 
   menuItems: MenuItem[] = [
@@ -118,10 +144,6 @@ export class PerfilComponent implements OnInit {
     { label: 'Painel Administrador', route: '/admin', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
-
-  associarUsuarioPerfil(): void {
-  
-  }
   updatePaginatedPerfis(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.perfisPaginated = this.perfis.slice(startIndex, startIndex + this.itemsPerPage);
