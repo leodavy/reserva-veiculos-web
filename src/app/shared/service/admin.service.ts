@@ -24,5 +24,13 @@ export class AdminService {
   getPerfis(): Observable<Perfil[]> {
     return this.#http.get<Perfil[]>(`${this.baseUrl}/listarPerfis`);
   }
-
+  
+  getTotalUsuarios(): Observable<number> {
+    return this.#http.get<number>(`${this.baseUrl}/totalUsuarios`);
+  }
+  
+  getTotalPerfis(): Observable<number> {
+    return this.#http.get<number>(`${this.baseUrl}/totalPerfis`);
+  }
+  
 }

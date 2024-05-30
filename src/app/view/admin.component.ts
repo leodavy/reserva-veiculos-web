@@ -5,12 +5,13 @@ import { UsuarioService } from '../shared/service/usuario.service';
 import { Router } from '@angular/router';
 import { MenuItem } from '../shared/model/menu-item';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
+import { AdminService } from '../shared/service/admin.service';
 
 @Component({
   selector: 'admin',
   standalone: true,
   template: `
-         <custom-background>
+    <custom-background>
       <custom-menu [menuItems]="menuItems"></custom-menu>
       <div class="flex flex-col items-center justify-center h-screen text-center bg-gray-100 p-8">
         <h1 class="text-4xl font-bold mb-4 text-gray-800">Painel do Administrador</h1>
@@ -36,24 +37,27 @@ import { JwtPayload } from '../shared/interceptors/JwtPayload';
 
         <div class="flex flex-wrap justify-center gap-4">
           <div class="bg-white shadow-lg rounded-lg p-4 w-40">
-            <p class="text-3xl font-bold text-green-500">120</p>
+            <p class="text-3xl font-bold text-green-500">{{ totalUsuarios }}</p>
             <p class="text-gray-600">Usuários</p>
           </div>
           <div class="bg-white shadow-lg rounded-lg p-4 w-40">
-            <p class="text-3xl font-bold text-blue-500">8</p>
+            <p class="text-3xl font-bold text-blue-500">{{ totalPerfis }}</p>
             <p class="text-gray-600">Perfis</p>
           </div>
         </div>
       </div>
     </custom-background>
-  
   `,
   imports: [CustomBackgroundComponent, CustomMenuComponent]
 })
 export class AdminComponent implements OnInit {
   usuario: JwtPayload | null = null;
+  totalUsuarios: number = 0;
+  totalPerfis: number = 0;
+
   constructor(
     private usuarioService: UsuarioService,
+    private adminService: AdminService,
     private router: Router
   ) { }
 
@@ -62,6 +66,7 @@ export class AdminComponent implements OnInit {
       console.log('Usuário logado:', usuario);
       this.usuario = usuario;
     });
+    this.carregarTotais();
   }
 
   menuItems: MenuItem[] = [
@@ -78,4 +83,8 @@ export class AdminComponent implements OnInit {
     this.router.navigate([route]);
   }
 
+  carregarTotais() {
+    this.adminService.getTotalUsuarios().subscribe(total => this.totalUsuarios = total);
+    this.adminService.getTotalPerfis().subscribe(total => this.totalPerfis = total);
+  }
 }
