@@ -50,17 +50,24 @@ import { CommonModule } from '@angular/common';
 
           <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-4">Listagem de Usuários</h2>
-            <p class="text-gray-600 mb-4">Visualize e gerencie todos os usuários associados a este perfil.</p>
+            <p class="text-gray-600 mb-4">Visualize a lista dos ID's .</p>
             <div *ngIf="usuariosAssociados.length > 0; else noUsers">
-            <div *ngFor="let usuario of usuariosAssociados" class="border rounded-lg p-4 mb-4">
-    <p><strong>ID:</strong> {{ usuario.uspUsuarioPerfilKey.usuNrId }}</p>
-</div>
-
-
+              <div *ngFor="let usuario of usuariosPaginados" class="border rounded-lg p-4 mb-4">
+                <p><strong>ID:</strong> {{ usuario.uspUsuarioPerfilKey.usuNrId }}</p>
+              </div>
             </div>
             <ng-template #noUsers>
               <p class="text-gray-600">Nenhum usuário associado a este perfil.</p>
             </ng-template>
+            <div class="flex justify-center items-center gap-4 mt-4">
+              <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPageUsuarios()" [disabled]="currentPageUsuarios === 1">
+                Anterior
+              </button>
+              <span>Página {{ currentPageUsuarios }} de {{ totalPagesUsuarios }}</span>
+              <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPageUsuarios()" [disabled]="currentPageUsuarios === totalPagesUsuarios">
+                Próxima
+              </button>
+            </div>
           </div>
         </div>
         <custom-popup></custom-popup> 
@@ -70,16 +77,13 @@ import { CommonModule } from '@angular/common';
 })
 export class PerfilComponent implements OnInit {
   @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
-  usuario: JwtPayload | null = null;
-  perfis: Perfil[] = [];
-  perfisPaginated: Perfil[] = [];
-  novoPerfilNome: string = '';
-  currentPage: number = 1;
-  itemsPerPage: number = 3;
-  totalPages: number = 1;
-  errorMessage: string = '';
   perfil: Perfil | null = null;
   usuariosAssociados: UsuarioPerfil[] = [];
+  usuariosPaginados: UsuarioPerfil[] = [];
+  currentPageUsuarios: number = 1;
+  itemsPerPageUsuarios: number = 3;
+  totalPagesUsuarios: number = 1;
+  errorMessage: string = '';
 
   formGroup: FormGroup = new FormGroup({
     usuNrId: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] })
@@ -125,6 +129,7 @@ export class PerfilComponent implements OnInit {
     this.adminService.listarUsuariosAssociados(perNrId).subscribe(
       usuarios => {
         this.usuariosAssociados = usuarios;
+        this.updatePaginatedUsuarios(); 
       },
       error => {
         console.error('Erro ao carregar usuários associados:', error);
@@ -132,8 +137,28 @@ export class PerfilComponent implements OnInit {
     );
   }
 
+
+  updatePaginatedUsuarios(): void {
+    const startIndex = (this.currentPageUsuarios - 1) * this.itemsPerPageUsuarios;
+    this.usuariosPaginados = this.usuariosAssociados.slice(startIndex, startIndex + this.itemsPerPageUsuarios);
+    this.totalPagesUsuarios = Math.ceil(this.usuariosAssociados.length / this.itemsPerPageUsuarios);
+  }
+
+  nextPageUsuarios(): void {
+    if (this.currentPageUsuarios < this.totalPagesUsuarios) {
+      this.currentPageUsuarios++;
+      this.updatePaginatedUsuarios();
+    }
+  }
+
+  previousPageUsuarios(): void {
+    if (this.currentPageUsuarios > 1) {
+      this.currentPageUsuarios--;
+      this.updatePaginatedUsuarios();
+    }
+  }
   associarUsuarioPerfil(): void {
-    this.errorMessage = ''; // Redefinir mensagem de erro
+    this.errorMessage = ''; 
 
     if (this.formGroup.valid && this.perfil) {
       const usuNrId: number = parseInt(this.formGroup.value.usuNrId);
@@ -161,27 +186,11 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  updatePaginatedPerfis(): void {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.perfisPaginated = this.perfis.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePaginatedPerfis();
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePaginatedPerfis();
-    }
-  }
-
   logout() {
     this.usuarioService.logout();
     this.router.navigate(['/login']);
   }
 }
+
+
+  
