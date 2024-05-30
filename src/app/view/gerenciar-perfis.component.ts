@@ -47,23 +47,24 @@ import { CustomPopupComponent } from '../shared/components/custom-popup/custom-p
           </div>
 
           <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-2xl font-bold mb-4">Listagem de Perfis</h2>
-            <p class="text-gray-600 mb-4">Visualize e gerencie todos os perfis do sistema.</p>
-            <div class="grid grid-cols-1 gap-4">
-              <div *ngFor="let perfil of perfisPaginated" class="border-b py-2">
-                {{ perfil.perTxNome }}
-              </div>
-            </div>
-            <div class="flex justify-center items-center gap-4 mt-4">
-              <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPage()" [disabled]="currentPage === 1">
-                Anterior
-              </button>
-              <span>Página {{ currentPage }} de {{ totalPages }}</span>
-              <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPage()" [disabled]="currentPage === totalPages">
-                Próxima
-              </button>
-            </div>
-          </div>
+  <h2 class="text-2xl font-bold mb-4">Listagem de Perfis</h2>
+  <p class="text-gray-600 mb-4">Visualize e gerencie todos os perfis do sistema.</p>
+  <div class="grid grid-cols-1 gap-4">
+    <div *ngFor="let perfil of perfisPaginated" class="border-b py-2 cursor-pointer" (click)="(perfil.perNrId)">
+      {{ perfil.perTxNome }}
+    </div>
+  </div>
+  <div class="flex justify-center items-center gap-4 mt-4">
+    <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPage()" [disabled]="currentPage === 1">
+      Anterior
+    </button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Próxima
+    </button>
+  </div>
+</div>
+
         </div>
         <custom-popup></custom-popup> 
       </div>
@@ -85,7 +86,6 @@ export class GerenciarPerfisComponent implements OnInit {
     private adminService: AdminService,
     private usuarioService: UsuarioService,
     private router: Router,
-    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -112,7 +112,7 @@ export class GerenciarPerfisComponent implements OnInit {
             this.popup.show('Perfil cadastrado com sucesso!');
             this.carregarPerfis();
             setTimeout(() => {
-              window.location.reload(); 
+              window.location.reload();
             }, 1000);
           } else {
             console.error('Erro popup');
@@ -126,7 +126,6 @@ export class GerenciarPerfisComponent implements OnInit {
       ).subscribe();
     }
   }
-
   carregarPerfis() {
     this.adminService.getPerfis().subscribe(perfis => {
       this.perfis = perfis;
@@ -134,19 +133,16 @@ export class GerenciarPerfisComponent implements OnInit {
       this.updatePaginatedPerfis();
     });
   }
-
   updatePaginatedPerfis(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.perfisPaginated = this.perfis.slice(startIndex, startIndex + this.itemsPerPage);
   }
-
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updatePaginatedPerfis();
     }
   }
-
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
