@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CustomBackgroundComponent } from "../shared/components/custom-background/custom-background.component";
 import { CustomMenuComponent } from "../shared/components/custom-menu/custom-menu.component";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -85,6 +85,7 @@ export class PerfilComponent implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef, 
   ) { }
 
   ngOnInit(): void {
@@ -109,13 +110,17 @@ export class PerfilComponent implements OnInit {
     );
   }
   associarUsuarioPerfil(): void {
+    this.errorMessage = ''; // Redefinir mensagem de erro
+  
     if (this.formGroup.valid && this.perfil) {
       const usuNrId: number = parseInt(this.formGroup.value.usuNrId);
       const perNrId: number = this.perfil.perNrId;
-
+  
       this.adminService.associarPerfilUsuario(usuNrId, perNrId).pipe(
         tap(response => {
           console.log('Usuário associado ao perfil com sucesso', response);
+          this.errorMessage = ''; // Redefinir mensagem de erro após sucesso
+          this.cdr.detectChanges(); // Detectar mudanças
           if (this.popup) {
             this.popup.show('Usuário associado ao perfil com sucesso!');
             setTimeout(() => {
@@ -128,11 +133,14 @@ export class PerfilComponent implements OnInit {
         catchError((error) => {
           console.error('Erro ao associar o usuário a este perfil:', error);
           this.errorMessage = 'Erro ao associar o usuário a este perfil.';
+          this.cdr.detectChanges(); // Detectar mudanças
           return of(null);
         })
       ).subscribe();
     }
   }
+  
+
 
 
   formGroup: FormGroup = new FormGroup({

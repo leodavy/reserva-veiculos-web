@@ -36,11 +36,8 @@ export class AdminService {
     return this.#http.get<number>(`${this.baseUrl}/totalPerfis`);
   }
   associarPerfilUsuario(usuNrId: number, perNrId: number): Observable<any> {
-    const params = new HttpParams()
-      .set('usuNrId', usuNrId.toString())
-      .set('perNrId', perNrId.toString());
-
-    return this.#http.post<any>(`${this.baseUrl}/associarPerfilUsuario`, null, { params });
+    const url = `${this.baseUrl}/associarPerfilUsuario?usuNrId=${usuNrId}&perNrId=${perNrId}`;
+    return this.#http.post(url, null, { responseType: 'text' }); // Especifique 'responseType' como 'text'
   }
   
   
