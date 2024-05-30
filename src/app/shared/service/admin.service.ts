@@ -21,5 +21,8 @@ export class AdminService {
     const params = new HttpParams().set("perTxNome", perTxNome);
     return this.#http.post<Perfil>(`${this.baseUrl}/criarPerfil`, null, { params });
   }
+  getPerfis(): Observable<Perfil[]> {
+    return this.#http.get<Perfil[]>(`${this.baseUrl}/listarPerfis`);
+  }
 
 }
