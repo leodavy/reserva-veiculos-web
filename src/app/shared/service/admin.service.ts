@@ -46,4 +46,5 @@ export class AdminService {
     return this.#http.get<UsuarioPerfil[]>(`${this.baseUrl}/perfil/${perNrId}/listarUsuarios`);
   }
 
+
 }
