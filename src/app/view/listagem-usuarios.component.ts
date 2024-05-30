@@ -27,7 +27,7 @@ import { AdminService } from '../shared/service/admin.service';
             <h2 class="text-2xl font-bold mb-2">{{ usuario.usuTxNome }}</h2>
             <p class="text-gray-600"><strong>ID:</strong> {{ usuario.usuNrId }}</p>
             <p class="text-gray-600"><strong>Login:</strong> {{ usuario.usuTxLogin }}</p>
-            <p class="text-gray-600"><strong>Roles:</strong> {{ usuario.roles.join(', ') }}</p>
+            <p class="text-gray-600"><strong>Role:</strong> {{ usuario.roles.join(', ') }}</p>
           </div>
         </div>
 
