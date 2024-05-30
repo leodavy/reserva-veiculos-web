@@ -50,7 +50,7 @@ import { CustomPopupComponent } from '../shared/components/custom-popup/custom-p
   <h2 class="text-2xl font-bold mb-4">Listagem de Perfis</h2>
   <p class="text-gray-600 mb-4">Visualize e gerencie todos os perfis do sistema.</p>
   <div class="grid grid-cols-1 gap-4">
-    <div *ngFor="let perfil of perfisPaginated" class="border-b py-2 cursor-pointer" (click)="(perfil.perNrId)">
+    <div *ngFor="let perfil of perfisPaginated" class="border-b py-2 cursor-pointer" (click)="navegarPerfil(perfil.perNrId)">
       {{ perfil.perTxNome }}
     </div>
   </div>
@@ -149,6 +149,11 @@ export class GerenciarPerfisComponent implements OnInit {
       this.updatePaginatedPerfis();
     }
   }
+
+  navegarPerfil(perfilId: number): void {
+    this.router.navigate([`admin/perfil/${perfilId}`]);
+  }
+  
 
   logout() {
     this.usuarioService.logout();

@@ -24,7 +24,9 @@ export class AdminService {
   getPerfis(): Observable<Perfil[]> {
     return this.#http.get<Perfil[]>(`${this.baseUrl}/listarPerfis`);
   }
-  
+  getPerfilById(perNrId: number): Observable<Perfil> {
+    return this.#http.get<Perfil>(`${this.baseUrl}/perfil/${perNrId}`);
+  }
   getTotalUsuarios(): Observable<number> {
     return this.#http.get<number>(`${this.baseUrl}/totalUsuarios`);
   }
