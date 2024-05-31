@@ -13,46 +13,50 @@ import { VeiculoService } from '../shared/service/veiculo.service';
   selector: 'home',
   standalone: true,
   template: `
- <custom-background>
-  <custom-menu [menuItems]="menuItems"></custom-menu>
-  <div class="mt-12 p-12 flex justify-center" *ngIf="usuario?.payload">
-    <h1 class="text-black text-2xl">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
-  </div>
-  <div class="flex justify-center">
-    <div class="container bg-white border border-gray-300 p-4">
-      <div class="flex flex-col items-center overflow-y-auto h-[calc(100vh-300px)]">
-        <div *ngFor="let veiculo of veiculosPaginated" class="veiculo-item border p-4 mb-4 rounded cursor-pointer hover:bg-gray-100 w-full">
-          <div class="flex justify-center mb-4">
-            <img *ngIf="veiculo.imagemPrincipal" 
-                 [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
-                 alt="{{ veiculo.veiTxNome }}" 
-                 class="w-40 h-auto rounded">
+<custom-background>
+      <custom-menu [menuItems]="menuItems"></custom-menu>
+      <div class="mt-12 p-12 flex justify-center items-center flex-col" *ngIf="usuario?.payload">
+        <h1 class="text-black text-4xl mb-6">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
+        <button (click)="navigateToCadastro()" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-700 mb-6">
+          Cadastrar Novo Veículo
+        </button>
+      </div>
+      <div class="flex justify-center items-center">
+        <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[1200px]">
+          <div class="flex flex-col items-center overflow-y-auto h-[calc(100vh-300px)]">
+            <div class="w-full flex flex-wrap">
+              <div *ngFor="let veiculo of veiculosPaginated; let i = index" class="veiculo-item border p-4 mb-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-100 w-[48%] m-[1%] flex">
+                <div class="flex-shrink-0 mr-4">
+                  <img *ngIf="veiculo.imagemPrincipal" 
+                       [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
+                       alt="{{ veiculo.veiTxNome }}" 
+                       class="w-60 h-auto rounded-lg">
+                </div>
+                <div class="flex flex-col justify-between">
+                  <div>
+                    <div class="text-lg font-bold">{{ veiculo.veiTxNome }}</div>
+                    <div class="text-gray-600">Marca: {{ veiculo.veiTxMarca }}</div>
+                    <div class="text-gray-600">Tipo: {{ veiculo.veiTxTipo }}</div>
+                  </div>
+                  <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
+                    Fazer Reserva
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="flex flex-col items-center">
-            <div><strong>ID:</strong> {{ veiculo.veiNrId }}</div>
-            <div><strong>Nome:</strong> {{ veiculo.veiTxNome }}</div>
-            <div><strong>Marca:</strong> {{ veiculo.veiTxMarca }}</div>
-            <div><strong>Tipo:</strong> {{ veiculo.veiTxTipo }}</div>
-            <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Fazer Reserva</button>
+          <div class="pagination flex justify-center items-center gap-4 mt-6">
+            <button (click)="previousPage()" 
+                    [disabled]="currentPage === 1" 
+                    class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-500">Anterior</button>
+            <span class="text-lg">Página {{ currentPage }} de {{ totalPages }}</span>
+            <button (click)="nextPage()" 
+                    [disabled]="currentPage === totalPages" 
+                    class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-500">Próxima</button>
           </div>
         </div>
       </div>
-      <div class="pagination flex justify-center items-center gap-4 mt-4">
-        <button (click)="previousPage()" 
-                [disabled]="currentPage === 1" 
-                class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-700 disabled:bg-gray-500">Anterior</button>
-        <span>Página {{ currentPage }} de {{ totalPages }}</span>
-        <button (click)="nextPage()" 
-                [disabled]="currentPage === totalPages" 
-                class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-700 disabled:bg-gray-500">Próxima</button>
-      </div>
-    </div>
-  </div>
-</custom-background>
-
-
-
-
+    </custom-background>
 
   `,
   imports: [
@@ -62,6 +66,9 @@ import { VeiculoService } from '../shared/service/veiculo.service';
   ]
 })
 export class HomeComponent implements OnInit {
+  navigateToCadastro() {
+    throw new Error('Method not implemented.');
+  }
   usuario: JwtPayload | null = null;
   veiculos: Veiculo[] = [];
   veiculosPaginated: any[] = [];
