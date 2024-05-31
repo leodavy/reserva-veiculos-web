@@ -18,7 +18,7 @@ export class AcessoAutenticado implements CanActivate {
         if (jwtPayload && this.authService.isAuthenticated()) {
           return true;
         }
-        return this.router.createUrlTree(['/login']); // Redireciona para o login se não estiver autenticado
+        return this.router.createUrlTree(['/login']);  
       })
     );
   }

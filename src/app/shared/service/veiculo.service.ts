@@ -22,7 +22,7 @@ export class VeiculoService {
   }
   
   getImagensByVeiculoId(veiNrId: number): Observable<ImagemVeiculo[]> {
-    return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/veiculos/${veiNrId}/imagens`);
+    return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/${veiNrId}/imagens`);
   }
 
   getImagemById(imvNrId: number): Observable<ImagemVeiculo> {
