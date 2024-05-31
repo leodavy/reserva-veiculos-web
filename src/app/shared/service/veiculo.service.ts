@@ -21,12 +21,12 @@ export class VeiculoService {
     return this.http.post(`${this.baseUrl}/cadastrarVeiculo`, veiculo);
   }
   
-  getImagensByVeiculoId(veiculoId: number): Observable<ImagemVeiculo[]> {
-    return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/veiculo/${veiculoId}`);
+  getImagensByVeiculoId(veiNrId: number): Observable<ImagemVeiculo[]> {
+    return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/veiculos/${veiNrId}/imagens`);
   }
 
-  getImagemById(imagemId: number): Observable<ImagemVeiculo> {
-    return this.http.get<ImagemVeiculo>(`${this.baseUrl}/${imagemId}`);
+  getImagemById(imvNrId: number): Observable<ImagemVeiculo> {
+    return this.http.get<ImagemVeiculo>(`${this.baseUrl}/imagens/${imvNrId}`);
   }
  
 }

@@ -8,7 +8,6 @@ import { MenuItem } from '../shared/model/menu-item';
 import { UsuarioService } from '../shared/service/usuario.service';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
 import { Veiculo } from '../shared/model/veiculo';
-import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
 import { VeiculoService } from '../shared/service/veiculo.service';
 
 @Component({
@@ -16,33 +15,38 @@ import { VeiculoService } from '../shared/service/veiculo.service';
   standalone: true,
   template: `
         <custom-background>
-      <custom-menu [menuItems]="menuItems"></custom-menu>
-      <div class="mt-12 p-12 flex justify-center" *ngIf="usuario?.payload">
-        <h1 class="text-black text-2xl">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
+  <custom-menu [menuItems]="menuItems"></custom-menu>
+  <div class="mt-12 p-12 flex justify-center" *ngIf="usuario?.payload">
+    <h1 class="text-black text-2xl">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
+  </div>
+  <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div *ngFor="let veiculo of veiculosPaginated" class="veiculo-item border p-4 mb-4 rounded cursor-pointer hover:bg-gray-100">
+      <div class="flex justify-center mb-4">
+        <img *ngIf="veiculo.imagemPrincipal" 
+             [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
+             alt="{{ veiculo.veiTxNome }}" 
+             class="w-40 h-auto rounded">
       </div>
-      <div class="veiculo-list p-4 overflow-y-auto h-[calc(100vh-150px)]">
-        <div *ngFor="let veiculo of veiculosPaginated" class="veiculo-item border p-4 mb-4 rounded cursor-pointer hover:bg-gray-100" (click)="navigateToDetails(veiculo.veiNrId)">
-          <img *ngIf="veiculo.imagemPrincipal" 
-               [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
-               alt="{{ veiculo.veiTxNome }}" 
-               class="w-24 h-auto mb-4 rounded">
-          <div><strong>ID:</strong> {{ veiculo.veiNrId }}</div>
-          <div><strong>Nome:</strong> {{ veiculo.veiTxNome }}</div>
-          <div><strong>Marca:</strong> {{ veiculo.veiTxMarca }}</div>
-          <div><strong>Tipo:</strong> {{ veiculo.veiTxTipo }}</div>
-          <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Fazer Reserva</button>
-        </div>
+      <div class="flex flex-col items-center">
+        <div><strong>ID:</strong> {{ veiculo.veiNrId }}</div>
+        <div><strong>Nome:</strong> {{ veiculo.veiTxNome }}</div>
+        <div><strong>Marca:</strong> {{ veiculo.veiTxMarca }}</div>
+        <div><strong>Tipo:</strong> {{ veiculo.veiTxTipo }}</div>
+        <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Fazer Reserva</button>
       </div>
-      <div class="pagination flex justify-center items-center gap-4 mt-4">
-        <button (click)="previousPage()" 
-                [disabled]="currentPage === 1" 
-                class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-700 disabled:bg-gray-500">Anterior</button>
-        <span>Página {{ currentPage }} de {{ totalPages }}</span>
-        <button (click)="nextPage()" 
-                [disabled]="currentPage === totalPages" 
-                class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-700 disabled:bg-gray-500">Próxima</button>
-      </div>
-    </custom-background>
+    </div>
+  </div>
+  <div class="pagination flex justify-center items-center gap-4 mt-4">
+    <button (click)="previousPage()" 
+            [disabled]="currentPage === 1" 
+            class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-700 disabled:bg-gray-500">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" 
+            [disabled]="currentPage === totalPages" 
+            class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-700 disabled:bg-gray-500">Próxima</button>
+  </div>
+</custom-background>
+
   `,
   imports: [
     CustomBackgroundComponent,
