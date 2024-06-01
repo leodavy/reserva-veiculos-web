@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
- <button (click)="onClick()" class="text-white hover:text-gray focus:outline-none ">
+ <button (click)="onClick()" class="text-branco hover:text-gray focus:outline-none ">
       {{ buttonText }}
     </button>     `
 

@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
     CommonModule
   ],
   template: `
-      <div class="bg-white min-h-screen " [ngClass]="bgColorClass">
+      <div class="bg-third min-h-screen " [ngClass]="bgColorClass">
         <ng-content></ng-content>
       </div>
   `

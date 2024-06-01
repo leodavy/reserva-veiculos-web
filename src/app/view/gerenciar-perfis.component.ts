@@ -34,19 +34,19 @@ import { CustomPopupComponent } from '../shared/components/custom-popup/custom-p
         <p class="text-lg text-gray-600 mb-8">Aqui você pode gerenciar usuários e perfis do sistema.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div class="bg-white shadow-lg rounded-lg p-6">
+          <div class="bg-white shadow-lg rounded-xl p-6">
             <h2 class="text-2xl font-bold mb-4">Cadastro de Perfil</h2>
             <p class="text-gray-600 mb-4">Defina e gerencie os perfis de usuários.</p>
             <form [formGroup]="formGroup" (ngSubmit)="registrar()">
               <input type="text" formControlName="perTxNome" placeholder="Nome do Perfil" class="px-4 py-2 border rounded-lg mb-4 w-full" required>
-              <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
+              <button type="submit" class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-blue-700">
                 <i class="fas fa-user-plus mr-2"></i>Cadastrar Perfil
               </button>
               <div *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
             </form>
           </div>
 
-          <div class="bg-white shadow-lg rounded-lg p-6">
+          <div class="bg-white shadow-lg rounded-xl p-6">
   <h2 class="text-2xl font-bold mb-4">Listagem de Perfis</h2>
   <p class="text-gray-600 mb-4">Visualize e gerencie todos os perfis do sistema.</p>
   <div class="grid grid-cols-1 gap-4">
@@ -55,12 +55,12 @@ import { CustomPopupComponent } from '../shared/components/custom-popup/custom-p
     </div>
   </div>
   <div class="flex justify-center items-center gap-4 mt-4">
-    <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPage()" [disabled]="currentPage === 1">
-      Anterior
+    <button class="px-4 py-2  text-preto rounded-lg" (click)="previousPage()" [disabled]="currentPage === 1">
+      <
     </button>
-    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-    <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPage()" [disabled]="currentPage === totalPages">
-      Próxima
+    <span>< {{ currentPage }} de {{ totalPages }}</span>
+    <button class="px-4 py-2  text-preto rounded-lg " (click)="nextPage()" [disabled]="currentPage === totalPages">
+      >
     </button>
   </div>
 </div>
@@ -97,7 +97,7 @@ export class GerenciarPerfisComponent implements OnInit {
   });
 
   menuItems: MenuItem[] = [
-    { label: 'Home', route: '/home', type: 'text' },
+    { label: 'Início', route: '/home', type: 'text' },
     { label: 'Painel Administrador', route: '/admin', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];

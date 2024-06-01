@@ -23,7 +23,7 @@ import { AdminService } from '../shared/service/admin.service';
         <h1 class="text-4xl font-bold mb-8 text-gray-800">Listagem de Usuários</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 w-full max-w-screen-lg">
-          <div *ngFor="let usuario of usuariosPaginated" class="bg-white shadow-lg rounded-lg p-6">
+          <div *ngFor="let usuario of usuariosPaginated" class="bg-white shadow-lg rounded-3xl p-6">
             <h2 class="text-2xl font-bold mb-2">{{ usuario.usuTxNome }}</h2>
             <p class="text-gray-600"><strong>ID:</strong> {{ usuario.usuNrId }}</p>
             <p class="text-gray-600"><strong>Login:</strong> {{ usuario.usuTxLogin }}</p>
@@ -32,12 +32,12 @@ import { AdminService } from '../shared/service/admin.service';
         </div>
 
         <div class="flex justify-center items-center gap-4">
-          <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPage()" [disabled]="currentPage === 1">
-            Anterior
+          <button class="px-4 py-2 text-preto rounded-lg " (click)="previousPage()" [disabled]="currentPage === 1">
+            <
           </button>
           <span>Página {{ currentPage }} de {{ totalPages }}</span>
-          <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPage()" [disabled]="currentPage === totalPages">
-            Próxima
+          <button class="px-4 py-2 text-preto rounded-lg " (click)="nextPage()" [disabled]="currentPage === totalPages">
+            >
           </button>
         </div>
       </div>
@@ -66,7 +66,7 @@ export class ListagemUsuariosComponent implements OnInit {
   }
 
   menuItems: MenuItem[] = [
-    { label: 'Home', route: '/home', type: 'text' },
+    { label: 'Início', route: '/home', type: 'text' },
     { label: 'Painel Administrador', route: '/admin', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];

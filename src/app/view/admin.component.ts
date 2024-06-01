@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from '../shared/model/menu-item';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
 import { AdminService } from '../shared/service/admin.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'admin',
@@ -21,26 +22,26 @@ import { AdminService } from '../shared/service/admin.service';
           <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-4">Listagem de Usuários</h2>
             <p class="text-gray-600 mb-4">Visualize e gerencie todos os usuários do sistema.</p>
-            <button class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-700" (click)="navigateTo('/admin/listagem-usuarios')">
-              <i class="fas fa-users mr-2"></i>Ir para Listagem de Usuários
+            <button class="px-6 py-3 bg-green-700 text-white rounded-lg hover:bg-green-500" (click)="navigateTo('/admin/listagem-usuarios')">
+            <fa-icon [icon]="['far', 'users']" class="text-red-700"></fa-icon> Ir para Listagem de Usuários
             </button>
           </div>
 
-          <div class="bg-white shadow-lg rounded-lg p-6">
+          <div class="bg-branco shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-4">Gerenciar Perfis</h2>
             <p class="text-gray-600 mb-4">Visualize e gerencie todos os perfis do sistema.</p>
-            <button class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700" (click)="navigateTo('/admin/gerenciar-perfis')">
-              <i class="fas fa-user-plus mr-2"></i>Ir para Gerenciar Perfis
+            <button class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-blue-700" (click)="navigateTo('/admin/gerenciar-perfis')">
+              <i class="fas users mr-2"></i>Ir para Gerenciar Perfis
             </button>
           </div>
         </div>
 
         <div class="flex flex-wrap justify-center gap-4">
-          <div class="bg-white shadow-lg rounded-lg p-4 w-40">
+          <div class="bg-branco shadow-lg rounded-lg p-4 w-40">
             <p class="text-3xl font-bold text-green-500">{{ totalUsuarios }}</p>
             <p class="text-gray-600">Usuários</p>
           </div>
-          <div class="bg-white shadow-lg rounded-lg p-4 w-40">
+          <div class="bg-branco shadow-lg rounded-lg p-4 w-40">
             <p class="text-3xl font-bold text-blue-500">{{ totalPerfis }}</p>
             <p class="text-gray-600">Perfis</p>
           </div>
@@ -48,7 +49,11 @@ import { AdminService } from '../shared/service/admin.service';
       </div>
     </custom-background>
   `,
-  imports: [CustomBackgroundComponent, CustomMenuComponent]
+  imports: [
+    CustomBackgroundComponent,
+    CustomMenuComponent,
+    FontAwesomeModule
+    ]
 })
 export class AdminComponent implements OnInit {
   usuario: JwtPayload | null = null;
@@ -66,7 +71,7 @@ export class AdminComponent implements OnInit {
   }
 
   menuItems: MenuItem[] = [
-    { label: 'Home', route: '/home', type: 'text' },
+    { label: 'Início', route: '/home', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
 

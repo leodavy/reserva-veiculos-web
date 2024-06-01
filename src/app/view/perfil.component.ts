@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
             <p class="text-gray-600 mb-4">Associe um usuário a este perfil</p>
             <form [formGroup]="formGroup" (ngSubmit)="associarUsuarioPerfil()">
               <input type="text" formControlName="usuNrId" placeholder="Id do usuário" class="px-4 py-2 border rounded-lg mb-4 w-full" required>
-              <button type="submit" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-700">
+              <button type="submit" class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-blue-700">
                 <i class="fas fa-user-plus mr-2"></i>Associar Usuário
               </button>
               <div *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
@@ -60,12 +60,12 @@ import { CommonModule } from '@angular/common';
               <p class="text-gray-600">Nenhum usuário associado a este perfil.</p>
             </ng-template>
             <div class="flex justify-center items-center gap-4 mt-4">
-              <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="previousPageUsuarios()" [disabled]="currentPageUsuarios === 1">
-                Anterior
+              <button class="px-4 py-2  text-preto rounded-lg " (click)="previousPageUsuarios()" [disabled]="currentPageUsuarios === 1">
+                <
               </button>
               <span>Página {{ currentPageUsuarios }} de {{ totalPagesUsuarios }}</span>
-              <button class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700" (click)="nextPageUsuarios()" [disabled]="currentPageUsuarios === totalPagesUsuarios">
-                Próxima
+              <button class="px-4 py-2 text-preto rounded-lg " (click)="nextPageUsuarios()" [disabled]="currentPageUsuarios === totalPagesUsuarios">
+                >
               </button>
             </div>
           </div>
@@ -90,7 +90,7 @@ export class PerfilComponent implements OnInit {
   });
 
   menuItems: MenuItem[] = [
-    { label: 'Home', route: '/home', type: 'text' },
+    { label: 'Início', route: '/home', type: 'text' },
     { label: 'Painel Administrador', route: '/admin', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];

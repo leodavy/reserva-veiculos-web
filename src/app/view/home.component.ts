@@ -16,8 +16,8 @@ import { VeiculoService } from '../shared/service/veiculo.service';
 <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="mt-12 p-12 flex justify-center items-center flex-col" *ngIf="usuario?.payload">
-    <h1 class="text-gray-900 text-4xl font-bold mb-6">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
-    <button (click)="navigateToCadastro()" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-700 mb-6">
+    <h1 class="text-preto text-4xl font-bold mb-6">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
+    <button (click)="navigateToCadastro()" class="px-6 py-3 bg-secondary text-branco rounded-lg hover:bg-secondary mb-6">
       Cadastrar Novo Veículo
     </button>
   </div>
@@ -35,7 +35,7 @@ import { VeiculoService } from '../shared/service/veiculo.service';
                 <div class="text-xl font-bold text-gray-800">{{ veiculo.veiTxNome }}</div>
                 <div class="text-gray-600 mt-2">Marca: {{ veiculo.veiTxMarca }}</div>
                 <div class="text-gray-600">Tipo: {{ veiculo.veiTxTipo }}</div>
-                <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-700 shadow-lg">
+                <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-4 px-6 py-2 bg-secondary text-branco rounded-full hover:bg-blue-700 shadow-lg">
                   Fazer Reserva
                 </button>
               </div>
@@ -45,11 +45,11 @@ import { VeiculoService } from '../shared/service/veiculo.service';
         <div class="pagination flex justify-center items-center gap-4 mt-6">
           <button (click)="previousPage()" 
                   [disabled]="currentPage === 1" 
-                  class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-500">Anterior</button>
+                  class="px-4 py-2 text-black rounded-lg hover:rounded-lg hover: disabled:"><</button>
           <span class="text-lg">Página {{ currentPage }} de {{ totalPages }}</span>
           <button (click)="nextPage()" 
                   [disabled]="currentPage === totalPages" 
-                  class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-500">Próxima</button>
+                  class="px-4 py-2 text-black rounded-lg   disabled:">></button>
         </div>
       </div>
     </div>
@@ -63,9 +63,7 @@ import { VeiculoService } from '../shared/service/veiculo.service';
   ]
 })
 export class HomeComponent implements OnInit {
-  navigateToCadastro() {
-    throw new Error('Method not implemented.');
-  }
+
   usuario: JwtPayload | null = null;
   veiculos: Veiculo[] = [];
   veiculosPaginated: any[] = [];
@@ -92,7 +90,7 @@ export class HomeComponent implements OnInit {
   }
 
   menuItems: MenuItem[] = [
-    { label: 'Home', route: '/home', type: 'text' },
+    { label: 'Início', route: '/home', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
 
@@ -132,6 +130,10 @@ export class HomeComponent implements OnInit {
 
   navigateToDetails(veiculoId: number): void {
     this.router.navigate(['/veiculos', veiculoId]);
+  }
+
+  navigateToCadastro():void {
+    this.router.navigate(['/home/cadastrar-veiculo']);
   }
 
   reservarVeiculo(veiculoId: number, event: Event): void {

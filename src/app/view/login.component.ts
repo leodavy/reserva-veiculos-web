@@ -17,15 +17,15 @@ import { tap } from 'rxjs';
    <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="flex justify-center items-center h-screen">
-  <div class="bg-gray-800 p-8 rounded shadow-md w-full max-w-md ">
-    <h2 class="text-2xl text-white font-bold mb-6 text-center">Login</h2>
+  <div class="bg-branco p-8 rounded-xl shadow-md w-full max-w-md ">
+    <h2 class="text-2xl text-preto font-bold mb-6 text-center">Login</h2>
     <form [formGroup]="formGroup" (ngSubmit)="login()">
       <div class="mb-4">
-        <label for="login" class="block text-sm font-medium text-white">Usuário</label>
+        <label for="login" class="block text-sm font-medium  text-preto">Usuário</label>
         <input type="text" id="login" formControlName="login" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
       <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-white">Senha</label>
+        <label for="password" class="block text-sm font-medium text-preto">Senha</label>
         <input type="password" id="password" formControlName="senha" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
       </div>
       <custom-button [buttonText]="'Login'"></custom-button>
