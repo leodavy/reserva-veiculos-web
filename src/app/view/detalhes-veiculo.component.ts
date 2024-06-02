@@ -8,7 +8,6 @@ import { VeiculoService } from '../shared/service/veiculo.service';
 import { Veiculo } from '../shared/model/veiculo';
 import { CustomMenuComponent } from '../shared/components/custom-menu/custom-menu.component';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
-import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
 
 @Component({
   selector: 'detalhes-veiculo',
@@ -18,10 +17,12 @@ import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div *ngIf="veiculo" class="mt-12 p-12 flex justify-center items-center flex-col">
     <h1 class="text-preto text-4xl font-bold mb-6">{{ veiculo.veiTxNome }}</h1>
-    <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[600px]">
+    <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[800px]">
       <div *ngIf="imagens" class="image-container grid grid-cols-3 gap-4">
       <div *ngFor="let imagem of imagens" class="image-item">
-  <img [src]="imagem.base64 ? imagem.base64 : 'assets/placeholder-image.jpg'" [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao">
+  <img [src]="imagem.base64 ? imagem.base64 : 'assets/placeholder-image.jpg'"
+       [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao"
+       class="w-full h-auto max-w-full block">
 </div>
 
       </div>
@@ -86,24 +87,6 @@ export class DetalhesVeiculoComponent implements OnInit {
         }
       );
   }
-  
-  
-  private blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        const base64WithoutMetadata = base64String.split(',')[1];
-        resolve(base64WithoutMetadata);
-      };
-      reader.onerror = error => reject(error);
-    });
-  }
-  
-  
-  
-
   reservarVeiculo(veiculoId: number): void {
     this.router.navigate(['/reservar', veiculoId]);
   }

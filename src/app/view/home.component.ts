@@ -25,7 +25,10 @@ import { VeiculoService } from '../shared/service/veiculo.service';
     <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[1200px]">
       <div class="flex flex-col items-center overflow-y-auto h-[calc(100vh-300px)]">
         <div class="w-full grid grid-cols-3 gap-6">
-          <div *ngFor="let veiculo of veiculosPaginated" class="veiculo-item border p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-100 transition-all">
+          <div *ngFor="let veiculo of veiculosPaginated" 
+                class="veiculo-item border p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-100 transition-all"
+                (click)="navigateToDetails(veiculo.veiNrId)"
+                >
             <div class="flex flex-col items-center">
               <img *ngIf="veiculo.imagemPrincipal" 
                    [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
@@ -129,7 +132,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToDetails(veiNrId: number): void {
-    this.router.navigate(['/detalhes-veiculo/{{ veiNrId }}', veiNrId]);
+    this.router.navigate([`home/detalhes-veiculo/${veiNrId}`]);
   }
 
   navigateToCadastro():void {
