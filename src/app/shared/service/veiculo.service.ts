@@ -55,4 +55,10 @@ export class VeiculoService {
     return this.http.put<Veiculo>(`${this.baseUrl}/atualizarVeiculo/${veiculo.veiNrId}/`, veiculo);
   }
 
+  excluirVeiculo(veiNrId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/excluirVeiculo/${veiNrId}`);
+  }
+
+
+
 }

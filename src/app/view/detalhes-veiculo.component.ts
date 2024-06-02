@@ -10,8 +10,6 @@ import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
 import { CustomMenuComponent } from '../shared/components/custom-menu/custom-menu.component';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
 import { FormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faR } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'detalhes-veiculo',
@@ -28,10 +26,10 @@ import { faR } from '@fortawesome/free-solid-svg-icons';
                    [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao"
                    class="w-full h-auto max-w-full block">
               <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8 bg-gray-500 text-white p-2 rounded-full">
-                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="w-4 h-4 inline-block align-middle bi bi-pencil-square"></i>
               </button>
               <button (click)="excluirImagem(imagem.imvNrId)" class="absolute top-0 right-0 bg-red-500 text-white p-2 rounded-full ml-2">
-                <i class="fa-solid fa-trash"></i>
+                <i class="w-4 h-4 inline-block align-middle bi bi-trash"></i>
               </button>
             </div>
           </div>
@@ -60,6 +58,11 @@ import { faR } from '@fortawesome/free-solid-svg-icons';
               Salvar Alterações
             </button>
           </div>
+          <div class="text-center mt-4">
+            <button (click)="excluirVeiculo()" class="mt-4 px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 shadow-lg">
+              Excluir Veículo
+            </button>
+          </div>
         </div>
       </div>
       <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden>
@@ -68,7 +71,6 @@ import { faR } from '@fortawesome/free-solid-svg-icons';
   imports: [
     CustomBackgroundComponent,
     CommonModule,
-    FontAwesomeModule,
     FormsModule,
     CustomMenuComponent,
   ]
@@ -120,7 +122,7 @@ export class DetalhesVeiculoComponent implements OnInit {
 
   selecionarImagem(imvNrId?: number): void {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    fileInput.dataset['imvNrId'] = imvNrId?.toString() || ''; // Usado para identificar a imagem a ser substituída
+    fileInput.dataset['imvNrId'] = imvNrId?.toString() || ''; 
     fileInput.click();
   }
 
@@ -146,6 +148,14 @@ export class DetalhesVeiculoComponent implements OnInit {
     this.veiculoService.excluirImagemVeiculo(this.veiculo!.veiNrId, imvNrId).subscribe(() => {
       this.carregarImagens(this.veiculo!.veiNrId);
     });
+  }
+
+  excluirVeiculo(): void {
+    if (this.veiculo) {
+      this.veiculoService.excluirVeiculo(this.veiculo.veiNrId).subscribe(() => {
+        this.router.navigate(['/home']);
+      });
+    }
   }
 
   salvarAlteracoes(): void {
