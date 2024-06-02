@@ -20,9 +20,10 @@ import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
     <h1 class="text-preto text-4xl font-bold mb-6">{{ veiculo.veiTxNome }}</h1>
     <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[600px]">
       <div *ngIf="imagens" class="image-container grid grid-cols-3 gap-4">
-        <div *ngFor="let imagem of imagens" class="image-item">
-          <img [src]="imagem.base64 ? imagem.base64 : 'assets/placeholder-image.jpg'" [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao">
-        </div>
+      <div *ngFor="let imagem of imagens" class="image-item">
+  <img [src]="imagem.base64 ? imagem.base64 : 'assets/placeholder-image.jpg'" [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao">
+</div>
+
       </div>
       <div class="text-center">
         <div class="text-xl font-bold text-gray-800">Marca: {{ veiculo.veiTxMarca }}</div>
@@ -71,26 +72,13 @@ export class DetalhesVeiculoComponent implements OnInit {
     });
   }
 
-  async carregarImagens(veiNrId: number): Promise<void> {
-    // ...
+  carregarImagens(veiNrId: number): void {
     this.veiculoService.getImagensByVeiculoId(veiNrId)
       .subscribe(
-        async imagens => {
-          this.imagens = await Promise.all(imagens.map(async imagem => {
-            const base64 = await new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.readAsDataURL(imagem.imvBtBytes);
-              reader.onloadend = () => {
-                const result = reader.result as string;
-                console.log(result);  // Log the base64 string
-                resolve(result);
-              };
-              reader.onerror = error => reject(error);
-            });
-            return {
-              base64,
-              imvTxExtensao: imagem.imvTxExtensao
-            };
+        imagens => {
+          this.imagens = imagens.map(imagem => ({
+            base64: 'data:image/jpeg;base64,' + imagem.imvBtBytes,
+            imvTxExtensao: imagem.imvTxExtensao
           }));
         },
         error => {
@@ -98,6 +86,22 @@ export class DetalhesVeiculoComponent implements OnInit {
         }
       );
   }
+  
+  
+  private blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        const base64WithoutMetadata = base64String.split(',')[1];
+        resolve(base64WithoutMetadata);
+      };
+      reader.onerror = error => reject(error);
+    });
+  }
+  
+  
   
 
   reservarVeiculo(veiculoId: number): void {
