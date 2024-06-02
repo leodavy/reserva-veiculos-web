@@ -28,17 +28,15 @@ export class VeiculoService {
     return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/${veiNrId}/imagens`);
   }
 
-  addImagemVeiculo(veiNrId: number, formData: FormData): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/${veiNrId}/adicionarImagem`, formData)
-      .pipe(
-        map(response => response as string),
-        catchError(error => {
-          console.error('Erro ao adicionar imagem:', error);
-          return of('Erro ao adicionar imagem. Tente novamente mais tarde.');
-        })
-      );
+  adicionarImagemVeiculo(veiNrId: number, novaImagem: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', novaImagem);
+    return this.http.post(`${this.baseUrl}/${veiNrId}/adicionarImagem`, formData);
   }
 
+  excluirImagemVeiculo(veiNrId: number, imvNrId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/excluirImagemVeiculo/${veiNrId}/${imvNrId}`);
+  }
 
   getImagemById(imvNrId: number): Observable<ImagemVeiculo> {
     return this.http.get<ImagemVeiculo>(`${this.baseUrl}/imagens/${imvNrId}`);
@@ -46,6 +44,15 @@ export class VeiculoService {
 
   getVeiculoById(veiNrId: number): Observable<Veiculo> {
     return this.http.get<Veiculo>(`${this.baseUrl}/${veiNrId}`);
+  }
+
+  atualizarImagemVeiculo(veiNrId: number, imvNrId: number, novaImagem: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', novaImagem);
+    return this.http.put(`${this.baseUrl}/atualizarImagemVeiculo/${veiNrId}/${imvNrId}`, formData);
+  }
+  atualizarVeiculo(veiculo: Veiculo): Observable<Veiculo> {
+    return this.http.put<Veiculo>(`${this.baseUrl}/atualizarVeiculo/${veiculo.veiNrId}/`, veiculo);
   }
 
 }
