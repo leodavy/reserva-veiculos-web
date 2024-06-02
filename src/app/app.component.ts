@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -8,7 +10,8 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
   standalone: true,
   imports: [
     RouterOutlet,
-    FontAwesomeModule
+    FontAwesomeModule,
+    
   ],
   template: `
   <router-outlet ></router-outlet>
@@ -16,4 +19,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 })
 export class AppComponent {
   title = 'reserva-veiculos-web';
+  constructor(private icons: FaIconLibrary,) {
+    icons.addIconPacks(far, fas);
+  }
 }

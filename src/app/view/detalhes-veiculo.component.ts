@@ -10,6 +10,8 @@ import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
 import { CustomMenuComponent } from '../shared/components/custom-menu/custom-menu.component';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faR } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'detalhes-veiculo',
@@ -22,14 +24,14 @@ import { FormsModule } from '@angular/forms';
         <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[800px]">
           <div *ngIf="imagens.length" class="image-container grid grid-cols-3 gap-4 justify-center">
             <div *ngFor="let imagem of imagens" class="image-item relative">
-              <img [src]="imagem.base64 ? imagem.base64 : 'assets/placeholder-image.jpg'"
+              <img [src]="imagem.base64"
                    [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao"
                    class="w-full h-auto max-w-full block">
-              <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8 bg-gray-500 text-white p-2 rounded-full">
-                <i class="w-4 h-4 inline-block align-middle bi bi-pencil-square"></i>
+              <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8  text-primary p-2 rounded-full">
+              <fa-icon class="text-red text-xl" [icon]="['fas','pen-to-square']"></fa-icon>
               </button>
-              <button (click)="excluirImagem(imagem.imvNrId)" class="absolute top-0 right-0 bg-red-500 text-white p-2 rounded-full ml-2">
-                <i class="w-4 h-4 inline-block align-middle bi bi-trash"></i>
+              <button (click)="excluirImagem(imagem.imvNrId)" class="absolute top-0 right-0 text-red-500 p-2 rounded-full ml-2">
+              <fa-icon class="text-red text-xl" [icon]="['fas','trash']"></fa-icon>
               </button>
             </div>
           </div>
@@ -71,6 +73,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CustomBackgroundComponent,
     CommonModule,
+    FontAwesomeModule,
     FormsModule,
     CustomMenuComponent,
   ]

@@ -23,7 +23,6 @@ export class VeiculoService {
     return this.http.post(`${this.baseUrl}/cadastrarVeiculo`, veiculo, { headers, responseType: 'text' });
   }
 
-
   getImagensByVeiculoId(veiNrId: number): Observable<ImagemVeiculo[]> {
     return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/${veiNrId}/imagens`);
   }
