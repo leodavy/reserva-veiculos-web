@@ -44,4 +44,8 @@ export class VeiculoService {
     return this.http.get<ImagemVeiculo>(`${this.baseUrl}/imagens/${imvNrId}`);
   }
 
+  getVeiculoById(veiNrId: number): Observable<Veiculo> {
+    return this.http.get<Veiculo>(`${this.baseUrl}/${veiNrId}`);
+  }
+
 }

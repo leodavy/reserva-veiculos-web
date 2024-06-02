@@ -8,6 +8,7 @@ import { ListagemUsuariosComponent } from './view/listagem-usuarios.component';
 import { GerenciarPerfisComponent } from './view/gerenciar-perfis.component';
 import { PerfilComponent } from './view/perfil.component';
 import { CadastrarVeiculoComponent } from './view/cadastrar-veiculo.component';
+import { DetalhesVeiculoComponent } from './view/detalhes-veiculo.component';
 
 
 export const routes: Routes = [
@@ -16,11 +17,12 @@ export const routes: Routes = [
     },
     { path: 'home', canActivate: [AcessoAutenticado], component: HomeComponent },
     { path: 'home/cadastrar-veiculo', canActivate: [AcessoAutenticado], component: CadastrarVeiculoComponent }, 
+    { path: 'home/detalhes-veiculo/:veiNrId', canActivate: [AcessoAutenticado], component: DetalhesVeiculoComponent }, 
     { path: 'login', component: LoginComponent },
     { path: 'registro', component: RegistroComponent },
     { path: 'admin', canActivate: [AcessoAutenticado, AcessoAdmin], component: AdminComponent }, 
     { path: 'admin/listagem-usuarios', canActivate: [AcessoAutenticado, AcessoAdmin], component: ListagemUsuariosComponent },
     { path: 'admin/gerenciar-perfis', canActivate: [AcessoAutenticado, AcessoAdmin], component: GerenciarPerfisComponent },
     { path: 'admin/perfil/:perNrId', canActivate: [AcessoAutenticado, AcessoAdmin], component: PerfilComponent }, 
-       { path: '**', redirectTo: 'login' }
+    { path: '**', redirectTo: 'login' }
 ];

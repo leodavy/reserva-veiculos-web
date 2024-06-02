@@ -128,8 +128,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  navigateToDetails(veiculoId: number): void {
-    this.router.navigate(['/veiculos', veiculoId]);
+  navigateToDetails(veiNrId: number): void {
+    this.router.navigate(['/detalhes-veiculo/{{ veiNrId }}', veiNrId]);
   }
 
   navigateToCadastro():void {
