@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Veiculo } from '../model/veiculo';
 import { ImagemVeiculo } from '../model/imagem-veiculo';
+import { ReservaVeiculo } from '../model/reserva-veiculo';
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +57,21 @@ export class VeiculoService {
 
   excluirVeiculo(veiNrId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/excluirVeiculo/${veiNrId}`);
+  }
+
+  reservarVeiculo(veiNrId: number, usuNrId: number, dataReserva: Date): Observable<any> {
+    const reserva = { veiNrId: veiNrId, usuNrId: usuNrId, vusDtDate: dataReserva };
+    return this.http.post<any>(`${this.baseUrl}/reservarVeiculo`, reserva);
+  }
+
+  getReservasVeiculo(veiNrId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${veiNrId}/reservas`);
+  }
+
+  getReservas(): Observable<ReservaVeiculo[]> {
+    return this.http.get<ReservaVeiculo[]>(`${this.baseUrl}/reservas`);
+  }
+  getReservasByUsuario(): Observable<ReservaVeiculo[]> {
+    return this.http.get<ReservaVeiculo[]>(`${this.baseUrl}/reservas`);
   }
 }

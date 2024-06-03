@@ -6,7 +6,6 @@ import { MenuItem } from '../shared/model/menu-item';
 import { UsuarioService } from '../shared/service/usuario.service';
 import { VeiculoService } from '../shared/service/veiculo.service';
 import { Veiculo } from '../shared/model/veiculo';
-import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
 import { CustomMenuComponent } from '../shared/components/custom-menu/custom-menu.component';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -95,7 +94,11 @@ export class DetalhesVeiculoComponent implements OnInit {
 
   ngOnInit(): void {
     const veiculoId = this.route.snapshot.params['veiNrId'];
-    this.veiculoService.getVeiculoById(veiculoId).subscribe(veiculo => {
+    this.carregarVeiculo(veiculoId);
+  }
+
+  carregarVeiculo(veiNrId: number): void {
+    this.veiculoService.getVeiculoById(veiNrId).subscribe(veiculo => {
       this.veiculo = veiculo;
       this.carregarImagens(veiculo.veiNrId);
     });
@@ -140,8 +143,7 @@ export class DetalhesVeiculoComponent implements OnInit {
       if (imvNrId) {
         this.veiculoService.atualizarImagemVeiculo(this.veiculo!.veiNrId, parseInt(imvNrId), file).subscribe(
           () => {
-            this.carregarImagens(this.veiculo!.veiNrId);
-            this.alteracoesPendentes = true;
+            this.atualizarPagina();
           },
           error => {
             console.error('Erro ao atualizar imagem:', error);
@@ -150,8 +152,7 @@ export class DetalhesVeiculoComponent implements OnInit {
       } else {
         this.veiculoService.adicionarImagem(this.veiculo!.veiNrId, file).subscribe(
           () => {
-            this.carregarImagens(this.veiculo!.veiNrId);
-            this.alteracoesPendentes = true;
+            this.atualizarPagina();
           },
           error => {
             console.error('Erro ao adicionar imagem:', error);
@@ -164,8 +165,7 @@ export class DetalhesVeiculoComponent implements OnInit {
   excluirImagem(imvNrId: number): void {
     this.veiculoService.excluirImagemVeiculo(this.veiculo!.veiNrId, imvNrId).subscribe(
       () => {
-        this.carregarImagens(this.veiculo!.veiNrId);
-        this.alteracoesPendentes = true;
+        this.atualizarPagina();
       },
       error => {
         console.error('Erro ao excluir imagem:', error);
@@ -184,6 +184,7 @@ export class DetalhesVeiculoComponent implements OnInit {
   salvarAlteracoes(): void {
     this.veiculoService.atualizarVeiculo(this.veiculo!).subscribe(() => {
       this.alteracoesPendentes = false;
+      this.atualizarPagina();
     });
   }
 
@@ -194,6 +195,10 @@ export class DetalhesVeiculoComponent implements OnInit {
   logout(): void {
     this.usuarioService.logout();
     this.router.navigate(['/login']);
+  }
+
+  atualizarPagina(): void {
+    window.location.reload();
   }
 }
 
