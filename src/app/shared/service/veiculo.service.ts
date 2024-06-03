@@ -71,7 +71,7 @@ export class VeiculoService {
   getReservas(): Observable<ReservaVeiculo[]> {
     return this.http.get<ReservaVeiculo[]>(`${this.baseUrl}/reservas`);
   }
-  getReservasByUsuario(): Observable<ReservaVeiculo[]> {
-    return this.http.get<ReservaVeiculo[]>(`${this.baseUrl}/reservas`);
+  getReservasByUsuario(usuNrId: number): Observable<ReservaVeiculo[]> {
+    return this.http.get<ReservaVeiculo[]>(`${this.baseUrl}/reservas/${usuNrId}`);
   }
 }
