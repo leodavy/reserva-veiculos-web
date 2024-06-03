@@ -8,10 +8,8 @@ import { VeiculoService } from '../shared/service/veiculo.service';
 import { Veiculo } from '../shared/model/veiculo';
 import { ImagemVeiculo } from '../shared/model/imagem-veiculo';
 import { CustomMenuComponent } from '../shared/components/custom-menu/custom-menu.component';
-import { JwtPayload } from '../shared/interceptors/JwtPayload';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faR } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'detalhes-veiculo',
@@ -27,15 +25,15 @@ import { faR } from '@fortawesome/free-solid-svg-icons';
               <img [src]="imagem.base64"
                    [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao"
                    class="w-full h-auto max-w-full block">
-              <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8  text-primary p-2 rounded-full">
-              <fa-icon class="text-red text-xl" [icon]="['fas','pen-to-square']"></fa-icon>
+              <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8 text-primary p-2 rounded-full">
+                <fa-icon class="text-red text-xl" [icon]="['fas','pen-to-square']"></fa-icon>
               </button>
               <button (click)="excluirImagem(imagem.imvNrId)" class="absolute top-0 right-0 text-red-500 p-2 rounded-full ml-2">
-              <fa-icon class="text-red text-xl" [icon]="['fas','trash']"></fa-icon>
+                <fa-icon class="text-red text-xl" [icon]="['fas','trash']"></fa-icon>
               </button>
             </div>
           </div>
-          <div class="text-center mb-4">
+          <div class="text-center mb-4 ">
             <button (click)="selecionarImagem()" class="bg-blue-500 text-white px-4 py-2 rounded-full">
               Adicionar Imagem
             </button>
@@ -125,7 +123,11 @@ export class DetalhesVeiculoComponent implements OnInit {
 
   selecionarImagem(imvNrId?: number): void {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    fileInput.dataset['imvNrId'] = imvNrId?.toString() || ''; 
+    if (imvNrId !== undefined) {
+      fileInput.dataset['imvNrId'] = imvNrId.toString();
+    } else {
+      delete fileInput.dataset['imvNrId'];
+    }
     fileInput.click();
   }
 
@@ -136,21 +138,39 @@ export class DetalhesVeiculoComponent implements OnInit {
       const imvNrId = input.dataset['imvNrId'];
 
       if (imvNrId) {
-        this.veiculoService.atualizarImagemVeiculo(this.veiculo!.veiNrId, parseInt(imvNrId), file).subscribe(() => {
-          this.carregarImagens(this.veiculo!.veiNrId);
-        });
+        this.veiculoService.atualizarImagemVeiculo(this.veiculo!.veiNrId, parseInt(imvNrId), file).subscribe(
+          () => {
+            this.carregarImagens(this.veiculo!.veiNrId);
+            this.alteracoesPendentes = true;
+          },
+          error => {
+            console.error('Erro ao atualizar imagem:', error);
+          }
+        );
       } else {
-        this.veiculoService.adicionarImagemVeiculo(this.veiculo!.veiNrId, file).subscribe(() => {
-          this.carregarImagens(this.veiculo!.veiNrId);
-        });
+        this.veiculoService.adicionarImagem(this.veiculo!.veiNrId, file).subscribe(
+          () => {
+            this.carregarImagens(this.veiculo!.veiNrId);
+            this.alteracoesPendentes = true;
+          },
+          error => {
+            console.error('Erro ao adicionar imagem:', error);
+          }
+        );
       }
     }
   }
 
   excluirImagem(imvNrId: number): void {
-    this.veiculoService.excluirImagemVeiculo(this.veiculo!.veiNrId, imvNrId).subscribe(() => {
-      this.carregarImagens(this.veiculo!.veiNrId);
-    });
+    this.veiculoService.excluirImagemVeiculo(this.veiculo!.veiNrId, imvNrId).subscribe(
+      () => {
+        this.carregarImagens(this.veiculo!.veiNrId);
+        this.alteracoesPendentes = true;
+      },
+      error => {
+        console.error('Erro ao excluir imagem:', error);
+      }
+    );
   }
 
   excluirVeiculo(): void {
@@ -176,3 +196,4 @@ export class DetalhesVeiculoComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
+

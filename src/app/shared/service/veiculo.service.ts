@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Veiculo } from '../model/veiculo';
 import { ImagemVeiculo } from '../model/imagem-veiculo';
-import { catchError, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,10 +26,10 @@ export class VeiculoService {
     return this.http.get<ImagemVeiculo[]>(`${this.baseUrl}/${veiNrId}/imagens`);
   }
 
-  adicionarImagemVeiculo(veiNrId: number, novaImagem: File): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('file', novaImagem);
-    return this.http.post(`${this.baseUrl}/${veiNrId}/adicionarImagem`, formData);
+  adicionarImagem(veiculoId: number, imagem: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('imagem', imagem);
+    return this.http.post(`${this.baseUrl}/${veiculoId}/adicionarImagem`, formData);
   }
 
   excluirImagemVeiculo(veiNrId: number, imvNrId: number): Observable<any> {
@@ -45,10 +44,11 @@ export class VeiculoService {
     return this.http.get<Veiculo>(`${this.baseUrl}/${veiNrId}`);
   }
 
-  atualizarImagemVeiculo(veiNrId: number, imvNrId: number, novaImagem: File): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('file', novaImagem);
-    return this.http.put(`${this.baseUrl}/atualizarImagemVeiculo/${veiNrId}/${imvNrId}`, formData);
+  atualizarImagemVeiculo(veiculoId: number, imvNrId: number, imagem: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('imagem', imagem);
+  
+    return this.http.put(`${this.baseUrl}/atualizarImagemVeiculo/${veiculoId}/${imvNrId}`, formData);
   }
   atualizarVeiculo(veiculo: Veiculo): Observable<Veiculo> {
     return this.http.put<Veiculo>(`${this.baseUrl}/atualizarVeiculo/${veiculo.veiNrId}/`, veiculo);
@@ -57,7 +57,4 @@ export class VeiculoService {
   excluirVeiculo(veiNrId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/excluirVeiculo/${veiNrId}`);
   }
-
-
-
 }
