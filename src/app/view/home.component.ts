@@ -8,6 +8,7 @@ import { UsuarioService } from '../shared/service/usuario.service';
 import { JwtPayload } from '../shared/interceptors/JwtPayload';
 import { Veiculo } from '../shared/model/veiculo';
 import { VeiculoService } from '../shared/service/veiculo.service';
+import { ReservaVeiculo } from '../shared/model/reserva-veiculo';
 
 @Component({
   selector: 'home',
@@ -25,25 +26,23 @@ import { VeiculoService } from '../shared/service/veiculo.service';
     <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[1200px]">
       <div class="flex flex-col items-center overflow-y-auto h-[calc(100vh-300px)]">
         <div class="w-full grid grid-cols-3 gap-6">
-          <div *ngFor="let veiculo of veiculosPaginated" 
-                class="veiculo-item border p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-100 transition-all"
-                (click)="navigateToDetails(veiculo.veiNrId)"
-                >
-            <div class="flex flex-col items-center">
-              <img *ngIf="veiculo.imagemPrincipal" 
-                   [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
-                   alt="{{ veiculo.veiTxNome }}" 
-                   class="w-full h-40 object-cover rounded-lg mb-4">
-              <div class="text-center">
-                <div class="text-xl font-bold text-gray-800">{{ veiculo.veiTxNome }}</div>
-                <div class="text-gray-600 mt-2">Marca: {{ veiculo.veiTxMarca }}</div>
-                <div class="text-gray-600">Tipo: {{ veiculo.veiTxTipo }}</div>
-                <button (click)="reservarVeiculo(veiculo.veiNrId, $event)" class="mt-4 px-6 py-2 bg-secondary text-branco rounded-full hover:bg-blue-700 shadow-lg">
-                  Fazer Reserva
-                </button>
+          <ng-container *ngFor="let veiculo of veiculosPaginated">
+            <div class="veiculo-item border p-4 rounded-lg shadow-md cursor-pointer hover:bg-gray-100 transition-all"
+                 (click)="navigateToDetails(veiculo.veiNrId)"
+                 *ngIf="!veiculoReservado(veiculo.veiNrId)">
+              <div class="flex flex-col items-center">
+                <img *ngIf="veiculo.imagemPrincipal" 
+                     [src]="'data:image/' + veiculo.imagemPrincipal.imvTxExtensao + ';base64,' + veiculo.imagemPrincipal.imvBtBytes" 
+                     alt="{{ veiculo.veiTxNome }}" 
+                     class="w-full h-40 object-cover rounded-lg mb-4">
+                <div class="text-center">
+                  <div class="text-xl font-bold text-gray-800">{{ veiculo.veiTxNome }}</div>
+                  <div class="text-gray-600 mt-2">Marca: {{ veiculo.veiTxMarca }}</div>
+                  <div class="text-gray-600">Tipo: {{ veiculo.veiTxTipo }}</div> 
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
         </div>
         <div class="pagination flex justify-center items-center gap-4 mt-6">
           <button (click)="previousPage()" 
@@ -70,6 +69,7 @@ export class HomeComponent implements OnInit {
   usuario: JwtPayload | null = null;
   veiculos: Veiculo[] = [];
   veiculosPaginated: any[] = [];
+  veiculosReservados: ReservaVeiculo[] = []; 
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
@@ -87,8 +87,9 @@ export class HomeComponent implements OnInit {
 
       if (usuario && usuario.payload.roles.includes('ROLE_ADMIN')) {
         this.menuItems.splice(1, 0, { label: 'Painel Administrador', route: '/admin', type: 'text' });
+     
       }
-      this.loadVeiculos();
+      this.loadVeiculosNaoReservados(); // Carrega apenas os veículos não reservados
     });
   }
 
@@ -96,6 +97,13 @@ export class HomeComponent implements OnInit {
     { label: 'Início', route: '/home', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
+
+  loadVeiculosNaoReservados(): void {
+    this.veiculoService.getReservas().subscribe(veiculosReservados => {
+      this.veiculosReservados = veiculosReservados;
+      this.loadVeiculos();  
+    });
+  }
 
   loadVeiculos(): void {
     this.veiculoService.listaVeiculos().subscribe(veiculos => {
@@ -148,5 +156,8 @@ export class HomeComponent implements OnInit {
     this.usuarioService.logout();
     this.router.navigate(['/login']);
   }
-}
 
+  veiculoReservado(veiculoId: number): boolean {
+    return this.veiculosReservados.some(veiculo => veiculo.veiNrId === veiculoId);
+  }
+}
