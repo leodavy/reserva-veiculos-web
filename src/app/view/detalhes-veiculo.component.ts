@@ -50,7 +50,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
               <label class="block text-xl font-bold text-gray-800">Tipo:</label>
               <input [(ngModel)]="veiculo.veiTxTipo" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full">
             </div>
-            <button (click)="reservarVeiculo(veiculo.veiNrId)" class="mt-4 px-6 py-2 bg-secondary text-branco rounded-full hover:bg-blue-700 shadow-lg">
+            <button (click)="reservarVeiculo()" class="mt-4 px-6 py-2 bg-secondary text-branco rounded-full hover:bg-blue-700 shadow-lg">
               Fazer Reserva
             </button>
             <button *ngIf="alteracoesPendentes" (click)="salvarAlteracoes()" class="mt-4 px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-700 shadow-lg">
@@ -79,6 +79,7 @@ export class DetalhesVeiculoComponent implements OnInit {
   veiculo: Veiculo | null = null;
   imagens: { base64: string | null, imvTxExtensao: string, imvNrId: number }[] = [];
   alteracoesPendentes = false;
+  usuarioId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -95,12 +96,18 @@ export class DetalhesVeiculoComponent implements OnInit {
   ngOnInit(): void {
     const veiculoId = this.route.snapshot.params['veiNrId'];
     this.carregarVeiculo(veiculoId);
+    this.usuarioService.getUsuarioAtual().subscribe(usuario => {
+      if (usuario) {
+        this.usuarioId = usuario.payload.usuNrId;
+      }
+    });
   }
 
   carregarVeiculo(veiNrId: number): void {
     this.veiculoService.getVeiculoById(veiNrId).subscribe(veiculo => {
       this.veiculo = veiculo;
       this.carregarImagens(veiculo.veiNrId);
+      this.verificarReserva(veiculo.veiNrId);
     });
   }
 
@@ -118,6 +125,14 @@ export class DetalhesVeiculoComponent implements OnInit {
           console.error('Erro ao carregar imagens:', error);
         }
       );
+  }
+
+  verificarReserva(veiNrId: number): void {
+    this.veiculoService.getReservasVeiculo(veiNrId).subscribe(reservas => {
+      if (reservas && reservas.length > 0) {
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   onChange(): void {
@@ -188,8 +203,29 @@ export class DetalhesVeiculoComponent implements OnInit {
     });
   }
 
-  reservarVeiculo(veiculoId: number): void {
-    this.router.navigate(['/reservar', veiculoId]);
+  reservarVeiculo(): void {
+    if (this.veiculo && this.usuarioId) {
+      const dataAtual = new Date();
+      const dataReserva = this.formatarData(dataAtual);
+  
+      this.veiculoService.reservarVeiculo(this.veiculo.veiNrId, this.usuarioId, dataReserva).subscribe(
+        () => {
+          alert('Reserva realizada com sucesso!');
+          this.router.navigate(['/home']);
+        },
+        error => {
+          console.error('Erro ao reservar veículo:', error);
+          alert('Erro ao reservar veículo.');
+        }
+      );
+    }
+  }
+
+  private formatarData(data: Date): string {
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
   }
 
   logout(): void {
@@ -201,4 +237,3 @@ export class DetalhesVeiculoComponent implements OnInit {
     window.location.reload();
   }
 }
-

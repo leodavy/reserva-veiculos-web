@@ -9,6 +9,7 @@ import { GerenciarPerfisComponent } from './view/gerenciar-perfis.component';
 import { PerfilComponent } from './view/perfil.component';
 import { CadastrarVeiculoComponent } from './view/cadastrar-veiculo.component';
 import { DetalhesVeiculoComponent } from './view/detalhes-veiculo.component';
+import { MinhasReservasComponent } from './view/minhas-reservas.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path: 'home', canActivate: [AcessoAutenticado], component: HomeComponent },
     { path: 'home/cadastrar-veiculo', canActivate: [AcessoAutenticado], component: CadastrarVeiculoComponent }, 
     { path: 'home/detalhes-veiculo/:veiNrId', canActivate: [AcessoAutenticado], component: DetalhesVeiculoComponent }, 
+    { path: 'home/minhas-reservas/:usuNrId', canActivate: [AcessoAutenticado], component: MinhasReservasComponent }, 
     { path: 'login', component: LoginComponent },
     { path: 'registro', component: RegistroComponent },
     { path: 'admin', canActivate: [AcessoAutenticado, AcessoAdmin], component: AdminComponent }, 
