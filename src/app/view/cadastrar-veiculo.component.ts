@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CustomBackgroundComponent } from "../shared/components/custom-background/custom-background.component";
 import { CustomMenuComponent } from '../shared/components/custom-menu/custom-menu.component';
 import { MenuItem } from '../shared/model/menu-item';
@@ -8,6 +8,8 @@ import { CustomButtonComponent } from "../shared/components/custom-button/custom
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VeiculoService } from '../shared/service/veiculo.service';
 import { CustomPopupComponent } from '../shared/components/custom-popup/custom-popup.component';
+import { JwtPayload } from '../shared/interceptors/JwtPayload';
+import { Usuario } from '../shared/model/usuario';
 
 @Component({
   selector: 'cadastrar-veiculo',
@@ -46,8 +48,10 @@ import { CustomPopupComponent } from '../shared/components/custom-popup/custom-p
     CustomPopupComponent
   ]
 })
-export class CadastrarVeiculoComponent {
+export class CadastrarVeiculoComponent implements OnInit{
   @ViewChild(CustomPopupComponent) popup!: CustomPopupComponent;
+  usuario: JwtPayload | null = null;
+
 
   constructor(
     private usuarioService: UsuarioService,
@@ -55,11 +59,21 @@ export class CadastrarVeiculoComponent {
     private router: Router
   ) { }
 
+  ngOnInit(): void {
+    this.usuarioService.getUsuarioAtual().subscribe(usuario => {
+      console.log('Usuário logado:', usuario);
+      this.usuario = usuario;
+      if (this.usuario) {
+        this.formGroup.get('usuNrId')?.setValue(this.usuario.payload.usuNrId);
+      }
+    });
+  }
+
   formGroup: FormGroup = new FormGroup({
     veiTxNome: new FormControl<string>('', [Validators.required]),
     veiTxMarca: new FormControl<string>('', [Validators.required]),
-    veiTxTipo: new FormControl<string>('', [Validators.required])
-  });
+    veiTxTipo: new FormControl<string>('', [Validators.required]),
+    usuNrId: new FormControl<number | null>(null, [Validators.required])  });
 
   menuItems: MenuItem[] = [
     { label: 'Início', route: '/home', type: 'text' },

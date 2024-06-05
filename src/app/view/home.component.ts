@@ -17,7 +17,7 @@ import { ReservaVeiculo } from '../shared/model/reserva-veiculo';
 <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="mt-12 p-12 flex justify-center items-center flex-col" *ngIf="usuario?.payload">
-    <h1 class="text-preto text-4xl font-bold mb-6">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome }}!</h1>
+    <h1 class="text-preto text-4xl font-bold mb-6">Olá, seja bem-vindo{{ usuario?.payload?.usuTxNome}}!</h1>
     <button (click)="navigateToCadastro()" class="px-6 py-3 bg-secondary text-branco rounded-lg hover:bg-secondary mb-6">
       Cadastrar Novo Veículo
     </button>
@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
         this.menuItems.splice(1, 0, { label: 'Painel Administrador', route: '/admin', type: 'text' });
      
       }
-      this.loadVeiculosNaoReservados(); // Carrega apenas os veículos não reservados
+      this.loadVeiculosNaoReservados(); 
     });
   }
 
