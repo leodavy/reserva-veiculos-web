@@ -24,40 +24,40 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
               <img [src]="imagem.base64"
                    [alt]="veiculo.veiTxNome + ' - ' + imagem.imvTxExtensao"
                    class="w-full h-auto max-w-full block">
-              <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8 text-primary p-2 rounded-full">
+              <button (click)="selecionarImagem(imagem.imvNrId)" class="absolute top-0 right-8 text-primary p-2 rounded-full" *ngIf="isOwner()">
                 <fa-icon class="text-red text-xl" [icon]="['fas','pen-to-square']"></fa-icon>
               </button>
-              <button (click)="excluirImagem(imagem.imvNrId)" class="absolute top-0 right-0 text-red-500 p-2 rounded-full ml-2">
+              <button (click)="excluirImagem(imagem.imvNrId)" class="absolute top-0 right-0 text-red-500 p-2 rounded-full ml-2" *ngIf="isOwner()">
                 <fa-icon class="text-red text-xl" [icon]="['fas','trash']"></fa-icon>
               </button>
             </div>
           </div>
-          <div class="text-center mb-4 ">
+          <div class="text-center mb-4" *ngIf="isOwner()">
             <button (click)="selecionarImagem()" class="bg-blue-500 text-white px-4 py-2 rounded-full">
               Adicionar Imagem
             </button>
           </div>
-          <div class="text-center">
-            <div class="mb-4">
+          <div class="text-center mt-16">
+            <div class="mb-4" *ngIf="isOwner()">
               <label class="block text-xl font-bold text-gray-800">Nome:</label>
-              <input [(ngModel)]="veiculo.veiTxNome" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full">
+              <input [(ngModel)]="veiculo.veiTxNome" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full" [disabled]="!isOwner()">
             </div>
             <div class="mb-4">
               <label class="block text-xl font-bold text-gray-800">Marca:</label>
-              <input [(ngModel)]="veiculo.veiTxMarca" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full">
+              <input [(ngModel)]="veiculo.veiTxMarca" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full" [disabled]="!isOwner()">
             </div>
             <div class="mb-4">
               <label class="block text-xl font-bold text-gray-800">Tipo:</label>
-              <input [(ngModel)]="veiculo.veiTxTipo" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full">
+              <input [(ngModel)]="veiculo.veiTxTipo" (ngModelChange)="onChange()" class="border p-2 rounded-lg w-full " [disabled]="!isOwner()">
             </div>
-            <button (click)="reservarVeiculo()" class="mt-4 px-6 py-2 bg-secondary text-branco rounded-full hover:bg-blue-700 shadow-lg">
+            <button (click)="reservarVeiculo()" class="mt-4 px-6 py-2 bg-secondary text-branco rounded-full hover:bg-blue-700 shadow-lg" *ngIf="!isOwner()">
               Fazer Reserva
             </button>
-            <button *ngIf="alteracoesPendentes" (click)="salvarAlteracoes()" class="mt-4 px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-700 shadow-lg">
+            <button *ngIf="alteracoesPendentes && isOwner()" (click)="salvarAlteracoes()" class="mt-4 px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-700 shadow-lg">
               Salvar Alterações
             </button>
           </div>
-          <div class="text-center mt-4">
+          <div class="text-center mt-4" *ngIf="isOwner()">
             <button (click)="excluirVeiculo()" class="mt-4 px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 shadow-lg">
               Excluir Veículo
             </button>
@@ -79,7 +79,7 @@ export class DetalhesVeiculoComponent implements OnInit {
   veiculo: Veiculo | null = null;
   imagens: { base64: string | null, imvTxExtensao: string, imvNrId: number }[] = [];
   alteracoesPendentes = false;
-  usuarioId: number | null = null;
+  usuNrId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -98,7 +98,7 @@ export class DetalhesVeiculoComponent implements OnInit {
     this.carregarVeiculo(veiculoId);
     this.usuarioService.getUsuarioAtual().subscribe(usuario => {
       if (usuario) {
-        this.usuarioId = usuario.payload.usuNrId;
+        this.usuNrId = usuario.payload.usuNrId;
       }
     });
   }
@@ -204,11 +204,11 @@ export class DetalhesVeiculoComponent implements OnInit {
   }
 
   reservarVeiculo(): void {
-    if (this.veiculo && this.usuarioId) {
+    if (this.veiculo && this.usuNrId) {
       const dataAtual = new Date();
       const dataReserva = this.formatarData(dataAtual);
   
-      this.veiculoService.reservarVeiculo(this.veiculo.veiNrId, this.usuarioId, dataReserva).subscribe(
+      this.veiculoService.reservarVeiculo(this.veiculo.veiNrId, this.usuNrId, dataReserva).subscribe(
         () => {
           alert('Reserva realizada com sucesso!');
           this.router.navigate(['/home']);
@@ -231,6 +231,10 @@ export class DetalhesVeiculoComponent implements OnInit {
   logout(): void {
     this.usuarioService.logout();
     this.router.navigate(['/login']);
+  }
+
+  isOwner(): boolean {
+    return this.veiculo?.usuNrId === this.usuNrId;
   }
 
   atualizarPagina(): void {
