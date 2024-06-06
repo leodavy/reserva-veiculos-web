@@ -66,6 +66,8 @@ import { MenuItem } from '../shared/model/menu-item';
 })
 export class LandingPageComponent {
 
+  
+
 
   menuItems: MenuItem[] = [
     { label: 'Início', route: '/inicio', type: 'text' },

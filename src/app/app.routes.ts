@@ -20,7 +20,7 @@ export const routes: Routes = [
     { path: 'home', canActivate: [AcessoAutenticado], component: HomeComponent },
     { path: 'home/cadastrar-veiculo', canActivate: [AcessoAutenticado], component: CadastrarVeiculoComponent }, 
     { path: 'home/detalhes-veiculo/:veiNrId', canActivate: [AcessoAutenticado], component: DetalhesVeiculoComponent }, 
-    { path: 'home/minhas-reservas/:usuNrId', canActivate: [AcessoAutenticado], component: MinhasReservasComponent }, 
+    { path: 'minhas-reservas/:usuNrId', canActivate: [AcessoAutenticado], component: MinhasReservasComponent }, 
     { path: 'login', component: LoginComponent },
     { path: 'inicio', component: LandingPageComponent },
     { path: 'registro', component: RegistroComponent },

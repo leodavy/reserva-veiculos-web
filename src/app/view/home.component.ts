@@ -17,10 +17,15 @@ import { ReservaVeiculo } from '../shared/model/reserva-veiculo';
 <custom-background>
   <custom-menu [menuItems]="menuItems"></custom-menu>
   <div class="mt-12 p-12 flex justify-center items-center flex-col" *ngIf="usuario?.payload">
-    <h1 class="text-preto text-4xl font-bold mb-6">Olá, seja bem-vindo{{ usuario?.payload?.usuTxNome}}!</h1>
-    <button (click)="navigateToCadastro()" class="px-6 py-3 bg-secondary text-branco rounded-lg hover:bg-secondary mb-6">
-      Cadastrar Novo Veículo
-    </button>
+    <h1 class="text-preto text-4xl font-bold mb-6">Olá, seja bem-vindo {{ usuario?.payload?.usuTxNome}}!</h1>
+    <div class="flex space-x-4 mb-6">
+      <button (click)="navigateToCadastro()" class="px-6 py-3 bg-secondary text-branco rounded-lg hover:bg-secondary">
+        Cadastrar Novo Veículo
+      </button>
+      <button (click)="navegarMinhasReservas(usuario!.payload.usuNrId )" class="px-6 py-3 bg-secondary text-branco rounded-lg hover:bg-secondary">
+        Minhas Reservas
+      </button>
+    </div>
   </div>
   <div class="flex justify-center items-center">
     <div class="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-[1200px]">
@@ -65,11 +70,10 @@ import { ReservaVeiculo } from '../shared/model/reserva-veiculo';
   ]
 })
 export class HomeComponent implements OnInit {
-
   usuario: JwtPayload | null = null;
   veiculos: Veiculo[] = [];
   veiculosPaginated: any[] = [];
-  veiculosReservados: ReservaVeiculo[] = []; 
+  veiculosReservados: ReservaVeiculo[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
@@ -87,9 +91,9 @@ export class HomeComponent implements OnInit {
 
       if (usuario && usuario.payload.roles.includes('ROLE_ADMIN')) {
         this.menuItems.splice(1, 0, { label: 'Painel Administrador', route: '/admin', type: 'text' });
-     
+
       }
-      this.loadVeiculosNaoReservados(); 
+      this.loadVeiculosNaoReservados();
     });
   }
 
@@ -101,7 +105,7 @@ export class HomeComponent implements OnInit {
   loadVeiculosNaoReservados(): void {
     this.veiculoService.getReservas().subscribe(veiculosReservados => {
       this.veiculosReservados = veiculosReservados;
-      this.loadVeiculos();  
+      this.loadVeiculos();
     });
   }
 
@@ -143,8 +147,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`home/detalhes-veiculo/${veiNrId}`]);
   }
 
-  navigateToCadastro():void {
+  navigateToCadastro(): void {
     this.router.navigate(['/home/cadastrar-veiculo']);
+  }
+  navegarMinhasReservas(usuNrId: number): void {
+    this.router.navigate([`minhas-reservas/${usuNrId}`]);
   }
 
   reservarVeiculo(veiculoId: number, event: Event): void {

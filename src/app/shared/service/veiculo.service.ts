@@ -60,7 +60,7 @@ export class VeiculoService {
     return this.http.delete(`${this.baseUrl}/excluirVeiculo/${veiNrId}`);
   }
 
-  reservarVeiculo(veiNrId: number, usuNrId: number, dataReserva: string): Observable<any> { // Alterado para string
+  reservarVeiculo(veiNrId: number, usuNrId: number, dataReserva: string): Observable<any> { 
     const reserva = { veiNrId, usuNrId, vusDtDate: dataReserva };
     return this.http.post<any>(`${this.baseUrl}/reservarVeiculo`, reserva);
   }
