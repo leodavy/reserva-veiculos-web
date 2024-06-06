@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
   veiculosPaginated: any[] = [];
   veiculosReservados: ReservaVeiculo[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 7;
   totalPages: number = 1;
 
   constructor(
