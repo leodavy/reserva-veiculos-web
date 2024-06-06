@@ -75,4 +75,9 @@ export class VeiculoService {
   getReservasByUsuario(usuNrId: number): Observable<ReservaVeiculo[]> {
     return this.http.get<ReservaVeiculo[]>(`${this.baseUrl}/reservas/${usuNrId}`);
   }
+  
+  excluirReservaVeiculo(vusNrId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/excluirReserva/${vusNrId}`);
+  }
+
 }
