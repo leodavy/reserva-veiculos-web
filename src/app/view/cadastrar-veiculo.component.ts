@@ -66,6 +66,9 @@ export class CadastrarVeiculoComponent implements OnInit{
       if (this.usuario) {
         this.formGroup.get('usuNrId')?.setValue(this.usuario.payload.usuNrId);
       }
+      if (usuario && usuario.payload.roles.includes('ROLE_ADMIN')) {
+        this.menuItems.splice(1, 0, { label: 'Painel Administrador', route: '/admin', type: 'text' });
+      }
     });
   }
 
@@ -77,7 +80,6 @@ export class CadastrarVeiculoComponent implements OnInit{
 
   menuItems: MenuItem[] = [
     { label: 'Início', route: '/home', type: 'text' },
-    { label: 'Painel Administrador', route: '/admin', type: 'text' },
     { label: 'Sair', route: '', type: 'text', action: () => this.logout() },
   ];
 
