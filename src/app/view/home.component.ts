@@ -144,11 +144,11 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToDetails(veiNrId: number): void {
-    this.router.navigate([`home/detalhes-veiculo/${veiNrId}`]);
+    this.router.navigate([`detalhes-veiculo/${veiNrId}`]);
   }
 
   navigateToCadastro(): void {
-    this.router.navigate(['/home/cadastrar-veiculo']);
+    this.router.navigate(['/cadastrar-veiculo']);
   }
   navegarMinhasReservas(usuNrId: number): void {
     this.router.navigate([`minhas-reservas/${usuNrId}`]);
